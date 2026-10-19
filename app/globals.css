@@ -385,3 +385,84 @@ body {
   .compact-app .curriculum-subtopic-head { padding-left: 18px; gap: 12px; }
 }
 .profile-intro h1 { font-weight: 600; }
+/* Shared profile-style navbar used across the app shell. */
+.app-navbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  background: #fff;
+  border-bottom: 1px solid #dfe8e2;
+}
+
+.app-brand {
+  color: #16253b;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.app-brand span { color: #0b9f72; }
+.app-brand b { color: #a3b0aa; font-weight: 500; }
+
+.app-view-label {
+  color: #728277;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The dashboard reuses the Sheet shell; its content keeps the profile cards
+   while the nested profile navigation is hidden to avoid duplicate chrome. */
+.compact-app .profile-app {
+  min-height: 100%;
+  background: transparent;
+}
+
+.compact-app .profile-topbar,
+.compact-app .profile-sidebar {
+  display: none;
+}
+
+.compact-app .profile-workspace,
+.compact-app .profile-main {
+  min-height: 100%;
+}
+
+.compact-app .profile-workspace { display: block; }
+.compact-app .profile-main { padding: 28px; }
+
+@media (max-width: 640px) {
+  .compact-app .profile-main { padding: 18px 14px 32px; }
+}
+
+@media (max-width: 640px) {
+  .app-navbar { padding: 0 18px; }
+}
+/* Give the curriculum a clear topic -> subtopic -> question reading path. */
+.compact-app .curriculum-subtopic {
+  position: relative;
+}
+
+.compact-app .curriculum-subtopic::before {
+  position: absolute;
+  top: 42px;
+  bottom: 0;
+  left: 38px;
+  width: 1px;
+  background: #dfe8e2;
+  content: "";
+}
+
+.compact-app .curriculum-table-wrap {
+  margin-left: 38px;
+  border-left: 0;
+}
+
+@media (max-width: 900px) {
+  .compact-app .curriculum-subtopic::before { left: 26px; }
+  .compact-app .curriculum-table-wrap { margin-left: 26px; }
+}

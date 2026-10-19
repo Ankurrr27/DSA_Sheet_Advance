@@ -1,11 +1,10 @@
 "use client";
 
 import { Check, ChevronDown, ChevronRight, ChevronUp, ChevronsUp, FileText, Palette, PanelTopClose, Play, Star as RotateCcw } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 type Difficulty = "EASY" | "MEDIUM" | "HARD";
-type Question = { id: string; sheetNumber: number; title: string; difficulty: Difficulty; externalUrl: string; platform: string; youtubeUrl: string | null; label: string | null; labelColor: string | null; isRevision?: boolean; prerequisite: string | null; topicId: string; subtopicId: string | null; progress?: { status: string; notes?: string | null }[] };
+type Question = { id: string; sheetNumber: number; title: string; difficulty: Difficulty; externalUrl: string; platform: string; youtubeUrl: string | null; label: string | null; labelColor: string | null; prerequisite: string | null; topicId: string; subtopicId: string | null; progress?: { status: string; notes?: string | null }[] };
 type Subtopic = { id: string; name: string; questions: Question[] };
 type Topic = { id: string; name: string; subtopics: Subtopic[] };
 
@@ -19,8 +18,7 @@ export default function SheetPage() {
   const [error, setError] = useState("");
   const [saving, setSaving] = useState<string | null>(null);
   const [revisionIds, setRevisionIds] = useState<Set<string>>(new Set());
-  const searchParams = useSearchParams();
-  const revisionOnly = searchParams.get("view") === "revision";
+  const [revisionOnly, setRevisionOnly] = useState(false);
   const [myDifficulty, setMyDifficulty] = useState<Record<string, Difficulty | null>>({});
 
   async function load() {
@@ -36,7 +34,21 @@ export default function SheetPage() {
     } catch (reason) { setError(reason instanceof Error ? reason.message : "Unable to load questions"); } finally { setLoading(false); }
   }
 
-  useEffect(() => { load(); const stored = window.localStorage.getItem("dsa-revision-ids"); if (stored) setRevisionIds(new Set(JSON.parse(stored))); const personal = window.localStorage.getItem("dsa-personal-difficulty"); if (personal) setMyDifficulty(JSON.parse(personal)); }, []);
+  useEffect(() => {
+    load();
+    const stored = window.localStorage.getItem("dsa-revision-ids");
+    if (stored) setRevisionIds(new Set(JSON.parse(stored)));
+    const personal = window.localStorage.getItem("dsa-personal-difficulty");
+    if (personal) setMyDifficulty(JSON.parse(personal));
+    const syncRevisionView = () => setRevisionOnly(window.location.pathname === "/revise" || new URLSearchParams(window.location.search).get("view") === "revision");
+    syncRevisionView();
+    window.addEventListener("dsa-route-change", syncRevisionView);
+    window.addEventListener("popstate", syncRevisionView);
+    return () => {
+      window.removeEventListener("dsa-route-change", syncRevisionView);
+      window.removeEventListener("popstate", syncRevisionView);
+    };
+  }, []);
 
   useEffect(() => {
     if (!revisionOnly || !topics.length) return;
@@ -65,6 +77,24 @@ export default function SheetPage() {
   const percent = questions.length ? Math.round(completed / questions.length * 100) : 0;
   const difficultySummary = (["EASY", "MEDIUM", "HARD"] as Difficulty[]).map((level) => { const total = questions.filter((question) => question.difficulty === level).length; const solved = questions.filter((question) => question.difficulty === level && question.progress?.some((item) => item.status === "SOLVED")).length; return { level, total, solved }; });
   const matches = (question: Question) => question.title.toLowerCase().includes(query.toLowerCase()) && (difficulty === "ALL" || question.difficulty === difficulty) && (!revisionOnly || revisionIds.has(question.id));
+
+  useEffect(() => {
+    const paintRows = () => {
+      document.querySelectorAll<HTMLElement>(".curriculum-row").forEach((row) => {
+        const title = row.querySelector<HTMLAnchorElement>(".curriculum-title-link")?.textContent?.trim();
+        const question = title ? questions.find((item) => item.title === title) : undefined;
+        if (question?.labelColor) {
+          row.style.setProperty("background", `color-mix(in srgb, ${question.labelColor} 18%, #ffffff)`, "important");
+        } else {
+          row.style.removeProperty("background");
+        }
+      });
+    };
+    paintRows();
+    const observer = new MutationObserver(paintRows);
+    observer.observe(document.querySelector(".curriculum-list") || document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, [questions, query, difficulty, revisionOnly, openTopics, openSubs]);
 
   useEffect(() => {
     const list = document.querySelector(".curriculum-list");
@@ -140,6 +170,10 @@ export default function SheetPage() {
     menu.querySelectorAll<HTMLButtonElement>("button").forEach((button) => button.addEventListener("click", () => {
       const color = button.dataset.color || null;
       void updateQuestion(question.id, { label: color ? "Colored" : null, labelColor: color });
+      if (row) {
+        if (color) row.style.setProperty("background", `color-mix(in srgb, ${color} 18%, #ffffff)`, "important");
+        else row.style.removeProperty("background");
+      }
       menu.remove();
     }));
     const close = (event: PointerEvent) => {
