@@ -51,5 +51,9 @@ export function publicUser(user: { id: string; name: string; email: string | nul
 }
 
 export function googleRedirectUri(request: Request) {
-  return `${process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin}/api/auth/google/callback`;
+  const configuredUrl = process.env.NEXT_PUBLIC_APP_URL?.trim().replace(/\/+$/, "");
+  const origin = configuredUrl
+    ? (/^https?:\/\//i.test(configuredUrl) ? configuredUrl : `https://${configuredUrl}`)
+    : new URL(request.url).origin;
+  return `${origin}/api/auth/google/callback`;
 }
