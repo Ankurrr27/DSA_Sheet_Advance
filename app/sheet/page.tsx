@@ -1,12 +1,14 @@
 "use client";
 
-import { Check, ChevronDown, ChevronRight, ChevronUp, ChevronsUp, FileText, Palette, PanelTopClose, Play, Star as RotateCcw } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, ChevronUp, ChevronsUp, FileText, Palette, PanelTopClose, PanelTopOpen, Play, Search, Star as RotateCcw } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import SheetSkeleton from "@/components/sheet-skeleton";
 
 type Difficulty = "EASY" | "MEDIUM" | "HARD";
 type Question = { id: string; sheetNumber: number; title: string; difficulty: Difficulty; externalUrl: string; platform: string; youtubeUrl: string | null; label: string | null; labelColor: string | null; prerequisite: string | null; topicId: string; subtopicId: string | null; progress?: { status: string; notes?: string | null }[] };
 type Subtopic = { id: string; name: string; questions: Question[] };
 type Topic = { id: string; name: string; subtopics: Subtopic[] };
+type SessionUser = { name: string; email: string | null; image: string | null };
 
 export default function SheetPage() {
   const [topics, setTopics] = useState<Topic[]>([]);
@@ -20,6 +22,7 @@ export default function SheetPage() {
   const [revisionIds, setRevisionIds] = useState<Set<string>>(new Set());
   const [revisionOnly, setRevisionOnly] = useState(false);
   const [myDifficulty, setMyDifficulty] = useState<Record<string, Difficulty | null>>({});
+  const [user, setUser] = useState<SessionUser | null>(null);
 
   async function load() {
     try {
@@ -35,6 +38,7 @@ export default function SheetPage() {
   }
 
   useEffect(() => {
+    fetch("/api/auth/session", { cache: "no-store" }).then((response) => response.json()).then((data: { user: SessionUser | null }) => setUser(data.user)).catch(() => setUser(null));
     load();
     const stored = window.localStorage.getItem("dsa-revision-ids");
     if (stored) setRevisionIds(new Set(JSON.parse(stored)));
@@ -75,8 +79,10 @@ export default function SheetPage() {
   const questions = useMemo(() => topics.flatMap((topic) => topic.subtopics.flatMap((subtopic) => subtopic.questions)), [topics]);
   const completed = questions.filter((question) => question.progress?.some((item) => item.status === "SOLVED")).length;
   const percent = questions.length ? Math.round(completed / questions.length * 100) : 0;
+  const subtopicCount = topics.reduce((count, topic) => count + topic.subtopics.length, 0);
   const difficultySummary = (["EASY", "MEDIUM", "HARD"] as Difficulty[]).map((level) => { const total = questions.filter((question) => question.difficulty === level).length; const solved = questions.filter((question) => question.difficulty === level && question.progress?.some((item) => item.status === "SOLVED")).length; return { level, total, solved }; });
   const matches = (question: Question) => question.title.toLowerCase().includes(query.toLowerCase()) && (difficulty === "ALL" || question.difficulty === difficulty) && (!revisionOnly || revisionIds.has(question.id));
+  const canEdit = Boolean(user);
 
   useEffect(() => {
     const paintRows = () => {
@@ -115,6 +121,7 @@ export default function SheetPage() {
   }, [questions]);
 
   async function toggleDone(question: Question) {
+    if (!user) return;
     const solved = !question.progress?.some((item) => item.status === "SOLVED");
     setSaving(question.id);
     const response = await fetch("/api/questions/progress", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId: question.id, solved }) });
@@ -123,20 +130,24 @@ export default function SheetPage() {
   }
 
   function toggleRevision(questionId: string) {
+    if (!user) return;
     setRevisionIds((current) => { const next = new Set(current); if (next.has(questionId)) next.delete(questionId); else next.add(questionId); window.localStorage.setItem("dsa-revision-ids", JSON.stringify([...next])); return next; });
   }
 
   function cycleMyDifficulty(questionId: string) {
+    if (!user) return;
     setMyDifficulty((current) => { const values: Array<Difficulty | null> = [null, "EASY", "MEDIUM", "HARD"]; const next = values[(values.indexOf(current[questionId] || null) + 1) % values.length]; const updated = { ...current, [questionId]: next }; window.localStorage.setItem("dsa-personal-difficulty", JSON.stringify(updated)); return updated; });
   }
 
   async function saveNotes(question: Question, notes: string) {
+    if (!user) return;
     const solved = question.progress?.some((item) => item.status === "SOLVED") || false;
     const response = await fetch("/api/questions/progress", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ questionId: question.id, solved, notes: notes.trim() || null }) });
     if (response.ok) await load(); else setError("Could not save your notes.");
   }
 
   async function updateQuestion(questionId: string, data: { label?: string | null; labelColor?: string | null }) {
+    if (!user) return;
     if ("labelColor" in data) {
       const storedColors = JSON.parse(window.localStorage.getItem("dsa-question-colors") || "{}");
       storedColors[questionId] = data.labelColor || null;
@@ -148,6 +159,7 @@ export default function SheetPage() {
   }
 
   function cycleColor(question: Question) {
+    if (!user) return;
     document.querySelector(".question-color-menu")?.remove();
     const row = [...document.querySelectorAll<HTMLElement>(".curriculum-row")].find((item) => item.querySelector(".curriculum-title-link")?.textContent?.trim() === question.title);
     const trigger = row?.querySelector<HTMLElement>(".color-action");
@@ -187,15 +199,20 @@ export default function SheetPage() {
   }
 
   function collapseAll() { setOpenTopics({}); setOpenSubs({}); }
+  function openAllSubtopics() {
+    setOpenTopics(Object.fromEntries(topics.map((topic) => [topic.id, true])));
+    // Keep every question table closed; only the subtopic headers are shown.
+    setOpenSubs({});
+  }
   function scrollToTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 
-  return <div className="route-page">
+  return <div className="sheet-page-shell"><div className="route-page">
     <header className="route-head sheet-table-hero"><div><div className="section-kicker">STRIVER A2Z CURRICULUM</div><h1>DSA Sheet</h1><p>Work through every topic in order. Mark a problem complete when you solve it.</p></div><div className="progress-summary"><div className="progress-gauge" style={{ background: `conic-gradient(#12a579 0 ${percent * 3.6}deg, #e6eee9 ${percent * 3.6}deg 360deg)` }}><div><strong>{percent}%</strong><span>done</span></div></div><div className="progress-breakdown"><div className="progress-total"><strong>{completed}</strong><span>/ {questions.length} solved</span></div>{difficultySummary.map((item) => <div className={`progress-level ${item.level.toLowerCase()}`} key={item.level}><i /> <span>{item.level === "MEDIUM" ? "Med." : item.level[0] + item.level.slice(1).toLowerCase()}</span><strong>{item.solved}/{item.total}</strong></div>)}</div></div></header>
-    <div className="sheet-actions"><div className="route-search">⌕<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search questions..." /></div><div className="filter-group">{["ALL", "EASY", "MEDIUM", "HARD"].map((value) => <button key={value} className={difficulty === value ? "filter-active" : ""} onClick={() => setDifficulty(value)}>{value === "ALL" ? "All levels" : value}</button>)}</div></div>
-    {error && <div className="route-panel error-panel">{error}</div>}{loading && <div className="route-panel">Loading your saved sheet…</div>}
-    {!loading && !error && <div className="curriculum-list">{topics.map((topic) => { const topicQuestions = topic.subtopics.flatMap((subtopic) => subtopic.questions).filter(matches); const topicDone = topicQuestions.filter((question) => question.progress?.some((item) => item.status === "SOLVED")).length; const topicPercent = topicQuestions.length ? Math.round(topicDone / topicQuestions.length * 100) : 0; return <section className="curriculum-topic" key={topic.id}><button className="curriculum-topic-head" onClick={() => setOpenTopics((current) => ({ ...current, [topic.id]: !current[topic.id] }))}><span className="topic-toggle">{openTopics[topic.id] ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</span><span className="curriculum-topic-title">{topic.name}</span><span className="topic-progress-badge">{topicPercent}% Done</span><span className="topic-progress-copy">Progress: <strong>{topicDone}</strong> / {topicQuestions.length} completed</span><span className="topic-progress-track"><i style={{ width: `${topicPercent}%` }} /></span><span className="topic-more" aria-hidden="true">{openTopics[topic.id] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</span></button>{openTopics[topic.id] && <div className="curriculum-subtopics">{topic.subtopics.map((subtopic) => { const visible = subtopic.questions.filter(matches); const subDone = visible.filter((question) => question.progress?.some((item) => item.status === "SOLVED")).length; return <div className="curriculum-subtopic" key={subtopic.id}><button className="curriculum-subtopic-head" onClick={() => setOpenSubs((current) => ({ ...current, [subtopic.id]: !current[subtopic.id] }))}><span className="subtopic-dot" /><span>{subtopic.name}</span><small>{visible.length} problems</small><strong>{subDone} Solved ({visible.length ? Math.round(subDone / visible.length * 100) : 0}%)</strong><span className="subtopic-toggle">{openSubs[subtopic.id] ? <ChevronDown size={16} /> : <ChevronDown size={16} />}</span></button>{openSubs[subtopic.id] && <div className="curriculum-table-wrap"><div className="curriculum-table-head"><span>STATUS</span><span>#</span><span>QUESTION</span><span>DIFFICULTY</span><span>MY DIFFICULTY</span><span>VIDEO</span><span>MY NOTES</span><span>REVISION</span><span>COLOUR</span></div>{visible.map((question) => { const done = question.progress?.some((item) => item.status === "SOLVED"); const hasLeetCode = question.platform === "LeetCode"; return <div className={`curriculum-row ${done ? "is-done" : ""} ${revisionIds.has(question.id) ? "is-revision" : ""}`} key={question.id} style={question.labelColor ? { borderLeft: `3px solid ${question.labelColor}` } : undefined}><button className={`status-checkbox ${done ? "checked" : ""}`} disabled={saving === question.id} onClick={() => toggleDone(question)} aria-label={done ? "Mark as not done" : "Mark as done"}>{done && <Check size={15} strokeWidth={3} />}</button><span className="row-number">{String(question.sheetNumber).padStart(2, "0")}</span><div className="curriculum-title">{hasLeetCode && <img className="leetcode-logo" src="https://assets.leetcode.com/static_assets/public/icons/favicon-32x32.png" alt="LeetCode" />}<a href={question.externalUrl} target="_blank" rel="noreferrer" className="curriculum-title-link">{question.title}</a></div><span className={`difficulty-pill ${question.difficulty.toLowerCase()}`}>{question.difficulty}</span><button className={`personal-difficulty ${myDifficulty[question.id]?.toLowerCase() || "unset"}`} onClick={() => cycleMyDifficulty(question.id)} aria-label="Set my difficulty">{myDifficulty[question.id] || "-"}</button>{question.youtubeUrl ? <a className="video-link" href={question.youtubeUrl} target="_blank" rel="noreferrer" aria-label="Open YouTube video"><Play size={12} fill="currentColor" />Video</a> : <span className="video-unavailable">—</span>}<button className="note-action" aria-label="My notes"><FileText size={16} /></button><button aria-label={revisionIds.has(question.id) ? "Remove from revision" : "Add to revision"} className={revisionIds.has(question.id) ? "row-action-active revision-action" : "revision-action"} onClick={() => toggleRevision(question.id)}><RotateCcw size={16} /></button><button aria-label="Color question" className={question.labelColor ? "row-action-active color-action" : "color-action"} onClick={() => cycleColor(question)}><Palette size={16} /></button></div>; })}</div>}</div>; })}</div>}</section>; })}</div>}
-    <div className="sheet-utilities" aria-label="Sheet navigation tools"><button type="button" onClick={collapseAll} aria-label="Collapse all topics" title="Collapse all topics"><PanelTopClose size={17} /></button><button type="button" onClick={scrollToTop} aria-label="Scroll to top" title="Scroll to top"><ChevronsUp size={18} /></button></div>
-  </div>;
+    <div className="sheet-actions"><label className="route-search"><Search className="route-search-icon" size={15} aria-hidden="true" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search questions..." aria-label="Search questions" /></label><div className="filter-group">{["ALL", "EASY", "MEDIUM", "HARD"].map((value) => <button key={value} className={difficulty === value ? "filter-active" : ""} onClick={() => setDifficulty(value)}>{value === "ALL" ? "All levels" : value}</button>)}</div></div>
+    {error && <div className="route-panel error-panel">{error}</div>}{loading && <SheetSkeleton />}
+    {!loading && !error && <div className="curriculum-list">{topics.map((topic) => { const topicQuestions = topic.subtopics.flatMap((subtopic) => subtopic.questions).filter(matches); const topicDone = topicQuestions.filter((question) => question.progress?.some((item) => item.status === "SOLVED")).length; const topicPercent = topicQuestions.length ? Math.round(topicDone / topicQuestions.length * 100) : 0; return <section className="curriculum-topic" key={topic.id}><button className="curriculum-topic-head" onClick={() => setOpenTopics((current) => ({ ...current, [topic.id]: !current[topic.id] }))}><span className="topic-toggle">{openTopics[topic.id] ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</span><span className="curriculum-topic-title">{topic.name}</span><span className="topic-progress-badge">{topicPercent}% Done</span><span className="topic-progress-copy">Progress: <strong>{topicDone}</strong> / {topicQuestions.length} completed</span><span className="topic-progress-track"><i style={{ width: `${topicPercent}%` }} /></span><span className="topic-more" aria-hidden="true">{openTopics[topic.id] ? <ChevronUp size={18} /> : <ChevronDown size={18} />}</span></button>{openTopics[topic.id] && <div className="curriculum-subtopics">{topic.subtopics.map((subtopic) => { const visible = subtopic.questions.filter(matches); const subDone = visible.filter((question) => question.progress?.some((item) => item.status === "SOLVED")).length; return <div className="curriculum-subtopic" key={subtopic.id}><button className="curriculum-subtopic-head" onClick={() => setOpenSubs((current) => ({ ...current, [subtopic.id]: !current[subtopic.id] }))}><span className="subtopic-dot" /><span>{subtopic.name}</span><small>{visible.length} problems</small><strong>{subDone} Solved ({visible.length ? Math.round(subDone / visible.length * 100) : 0}%)</strong><span className="subtopic-toggle">{openSubs[subtopic.id] ? <ChevronDown size={16} /> : <ChevronDown size={16} />}</span></button>{openSubs[subtopic.id] && <div className="curriculum-table-wrap"><div className="curriculum-table-head"><span>STATUS</span><span>QUESTION</span><span>DIFFICULTY</span><span>MY DIFFICULTY</span><span>VIDEO</span><span>MY NOTES</span><span>REVISION</span><span>COLOUR</span></div>{visible.map((question) => { const done = question.progress?.some((item) => item.status === "SOLVED"); const hasLeetCode = question.platform === "LeetCode"; return <div className={`curriculum-row ${done ? "is-done" : ""} ${revisionIds.has(question.id) ? "is-revision" : ""}`} key={question.id} style={question.labelColor ? { borderLeft: `3px solid ${question.labelColor}` } : undefined}><button className={`status-checkbox ${done ? "checked" : ""}`} disabled={saving === question.id} onClick={() => toggleDone(question)} aria-label={done ? "Mark as not done" : "Mark as done"}>{done && <Check size={15} strokeWidth={3} />}</button><div className="curriculum-title">{hasLeetCode && <img className="leetcode-logo" src="https://assets.leetcode.com/static_assets/public/icons/favicon-32x32.png" alt="LeetCode" />}<a href={question.externalUrl} target="_blank" rel="noreferrer" className="curriculum-title-link">{question.title}</a></div><span className={`difficulty-pill ${question.difficulty.toLowerCase()}`}>{question.difficulty}</span><button className={`personal-difficulty ${myDifficulty[question.id]?.toLowerCase() || "unset"}`} onClick={() => cycleMyDifficulty(question.id)} aria-label="Set my difficulty">{myDifficulty[question.id] || "-"}</button>{question.youtubeUrl ? <a className="video-link" href={question.youtubeUrl} target="_blank" rel="noreferrer" aria-label="Open YouTube video"><Play size={12} fill="currentColor" />Video</a> : <span className="video-unavailable">—</span>}<button className="note-action" aria-label="My notes"><FileText size={16} /></button><button aria-label={revisionIds.has(question.id) ? "Remove from revision" : "Add to revision"} className={revisionIds.has(question.id) ? "row-action-active revision-action" : "revision-action"} onClick={() => toggleRevision(question.id)}><RotateCcw size={16} /></button><button aria-label="Color question" className={question.labelColor ? "row-action-active color-action" : "color-action"} onClick={() => cycleColor(question)}><Palette size={16} /></button></div>; })}</div>}</div>; })}</div>}</section>; })}</div>}
+    <div className="sheet-utilities" aria-label="Sheet navigation tools"><button type="button" onClick={collapseAll} aria-label="Collapse all topics" title="Collapse all topics"><PanelTopClose size={17} /></button><button type="button" onClick={openAllSubtopics} aria-label="Open all subtopics" title="Open all subtopics"><PanelTopOpen size={17} /></button><button type="button" onClick={scrollToTop} aria-label="Scroll to top" title="Scroll to top"><ChevronsUp size={18} /></button></div>
+  </div>{user && <aside className="profile-summary-sidebar" aria-label="Profile summary"><div className="profile-identity"><div className="profile-avatar" aria-hidden="true">AK</div><div className="profile-identity-copy"><span>YOUR PROFILE</span><strong>{user.name}</strong><small>DSA learner · Building consistency</small></div></div><p className="profile-bio">Solving one problem at a time and tracking progress through the Striver A2Z sheet.</p><div className="profile-summary-heading"><span>LEARNING OVERVIEW</span><strong>Progress summary</strong></div><div className="profile-summary-overview"><div className="profile-summary-gauge" style={{ background: `conic-gradient(#ff713f 0 ${percent * 3.6}deg, #303030 ${percent * 3.6}deg 360deg)` }}><div><strong>{percent}%</strong><span>done</span></div></div><div className="profile-summary-details"><div className="profile-summary-total"><strong>{completed}</strong><span>/ {questions.length} solved</span></div><div className="profile-summary-levels">{difficultySummary.map((item) => <div className={`profile-summary-level ${item.level.toLowerCase()}`} key={item.level}><i /><span>{item.level === "MEDIUM" ? "Medium" : item.level[0] + item.level.slice(1).toLowerCase()}</span><strong>{item.solved}/{item.total}</strong></div>)}</div></div></div><div className="profile-summary-stats"><div><strong>{questions.length}</strong><span>Total questions</span></div><div><strong>{topics.length}</strong><span>Topics</span></div><div><strong>{subtopicCount}</strong><span>Subtopics</span></div><div><strong>{revisionIds.size}</strong><span>In revision</span></div></div></aside>}</div>;
 }
 
 

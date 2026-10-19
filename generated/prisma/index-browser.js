@@ -125,8 +125,18 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  image: 'image',
+  googleSub: 'googleSub',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AuthSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.TopicScalarFieldEnum = {
@@ -239,6 +249,7 @@ exports.ActivityType = exports.$Enums.ActivityType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  AuthSession: 'AuthSession',
   Topic: 'Topic',
   Subtopic: 'Subtopic',
   Question: 'Question',

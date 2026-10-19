@@ -50,6 +50,15 @@ body{font-family:var(--font-manrope),sans-serif}
   color: var(--shell-ink);
   font-family: var(--font-manrope), Manrope, ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Flat sheet header and controls */
+.compact-app .route-head,
+.compact-app .sheet-actions {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
 .compact-topbar { height: 68px; padding: 0 28px; background: #ffffff; border-bottom: 1px solid var(--shell-border); color: var(--shell-ink); }
 .compact-topbar-left, .compact-top-actions { display: flex; align-items: center; gap: 13px; }
 .compact-brand { display: flex; align-items: baseline; gap: 2px; padding: 0 !important; color: var(--shell-ink) !important; font-size: 20px !important; letter-spacing: -.7px !important; }
@@ -415,6 +424,122 @@ body {
   text-transform: uppercase;
 }
 
+.app-navbar-actions { display: flex; align-items: center; gap: 14px; }
+.navbar-profile-avatar { width: 32px; height: 32px; display: grid; place-items: center; overflow: hidden; border: 1px solid #ff713f; border-radius: 50%; color: #fff; background: linear-gradient(145deg, #ff713f, #9d3924); font-size: 10px; font-weight: 800; text-decoration: none; }
+.navbar-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+body[data-profile-image="true"] .profile-summary-sidebar .profile-avatar { color: transparent; background-image: var(--profile-image); background-position: center; background-size: cover; background-repeat: no-repeat; }
+.app-navbar > .app-brand { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-navbar > .app-navbar-actions { margin-left: auto !important; margin-right: 0 !important; flex: 0 0 auto; justify-content: flex-end; }
+@media (max-width: 800px) { .app-navbar > .app-navbar-actions .theme-toggle-label { display: none !important; } }
+.navbar-profile-avatar,
+.profile-editor-avatar,
+.profile-summary-sidebar .profile-avatar { border: 0 !important; }
+.striver-theme-toggle-control { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 32px; padding: 7px 9px; border: 1px solid #d5e0d9; border-radius: 8px; color: #61736a; background: transparent; font-size: 10px; font-weight: 800; }
+.striver-theme-toggle-control > span:first-child { width: 24px; height: 14px; position: relative; border-radius: 20px; background: #d9e4dd; }
+.striver-theme-toggle-control > span:first-child::after { content: ""; position: absolute; top: 3px; left: 3px; width: 8px; height: 8px; border-radius: 50%; background: #fff; transition: transform .2s ease; }
+.striver-theme-toggle-control.is-on { color: #ff713f; border-color: #ff713f; }
+.striver-theme-toggle-control.is-on > span:first-child { background: #ff713f; }
+.striver-theme-toggle-control.is-on > span:first-child::after { transform: translateX(10px); }
+body[data-app-theme="striver"] .striver-theme-toggle-control { border-color: #393939; color: #ff8a62; }
+@media (max-width: 900px) { .striver-theme-toggle-control > span:last-child { display: none; } .striver-theme-toggle-control { padding-inline: 4px; } }
+.app-navbar > .striver-theme-toggle-control { margin-left: 18px; padding: 0; border: 0 !important; border-radius: 0; background: transparent !important; }
+.compact-nav.active,
+.compact-nav.active:hover,
+body[data-app-theme] .compact-nav.active,
+body[data-app-theme] .compact-nav.active:hover { background: transparent !important; box-shadow: none !important; border: 0 !important; color: #07865a !important; }
+.compact-nav.active svg { color: #07865a !important; }
+.compact-nav:hover,
+.compact-nav.active:hover,
+body[data-app-theme] .compact-nav:hover,
+body[data-app-theme] .compact-nav.active:hover { background: transparent !important; box-shadow: none !important; }
+.profile-rail-skeleton { position: fixed; z-index: 4; top: 92px; right: 24px; width: min(290px, calc(100vw - 48px)); min-height: calc(100vh - 150px); display: grid; align-content: start; gap: 14px; padding: 22px 0; border-left: 1px solid #dbe5df; color: #61736a; }
+.profile-rail-skeleton > div:first-of-type { display: grid; gap: 8px; padding-left: 68px; }
+.rail-skeleton-avatar, .rail-skeleton-line, .rail-skeleton-rule, .rail-skeleton-chart, .rail-skeleton-stat-grid i { display: block; background: linear-gradient(100deg, #e4ece7 25%, #f4f8f5 45%, #e4ece7 65%); background-size: 220% 100%; animation: sheet-skeleton-shimmer 1.4s ease-in-out infinite; }
+.rail-skeleton-avatar { width: 52px; height: 52px; position: absolute; top: 20px; left: 0; border-radius: 50%; }
+.rail-skeleton-line { height: 10px; border-radius: 5px; }
+.rail-skeleton-line.short { width: 90px; height: 8px; }
+.rail-skeleton-line.name { width: 150px; height: 17px; }
+.rail-skeleton-line.copy { width: 170px; }
+.rail-skeleton-rule { width: 100%; height: 1px; margin: 8px 0; }
+.rail-skeleton-line.heading { width: 150px; height: 17px; }
+.rail-skeleton-chart { width: 132px; height: 132px; margin: 10px auto; border-radius: 50%; background: conic-gradient(#e4ece7 0 45%, #f0f4f1 45% 100%); }
+.rail-skeleton-chart span { display: block; width: 96px; height: 96px; margin: 18px; border-radius: 50%; background: #f7faf8; }
+.rail-skeleton-stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.rail-skeleton-stat-grid i { height: 58px; border-radius: 8px; }
+body[data-app-theme="striver"] .profile-rail-skeleton { border-color: #292929; }
+body[data-app-theme="striver"] .rail-skeleton-avatar,
+body[data-app-theme="striver"] .rail-skeleton-line,
+body[data-app-theme="striver"] .rail-skeleton-rule,
+body[data-app-theme="striver"] .rail-skeleton-chart,
+body[data-app-theme="striver"] .rail-skeleton-stat-grid i { background: linear-gradient(100deg, #242424 25%, #343434 45%, #242424 65%); background-size: 220% 100%; }
+body[data-app-theme="striver"] .rail-skeleton-chart span { background: #171717; }
+@media (max-width: 1200px) { .profile-rail-skeleton { display: none; } }
+
+/* Refined right-rail loading state. */
+.profile-rail-skeleton { min-height: 0; height: calc(100vh - 150px); grid-template-columns: 52px minmax(0, 1fr); grid-template-rows: auto auto auto 1fr auto; column-gap: 12px; padding: 22px 0 18px 0; }
+.profile-rail-skeleton > div:first-of-type { grid-column: 2; grid-row: 1; padding-left: 0; }
+.profile-rail-skeleton .rail-skeleton-avatar { position: static; grid-column: 1; grid-row: 1; }
+.profile-rail-skeleton .rail-skeleton-rule { grid-column: 1 / -1; grid-row: 2; }
+.profile-rail-skeleton .rail-skeleton-line.heading { grid-column: 1 / -1; grid-row: 3; }
+.profile-rail-skeleton .rail-skeleton-chart { grid-column: 1 / -1; grid-row: 4; align-self: center; }
+.profile-rail-skeleton .rail-skeleton-stat-grid { grid-column: 1 / -1; grid-row: 5; }
+
+.sheet-skeleton { display: grid; gap: 12px; padding: 0 0 50px; }
+.sheet-skeleton-hero { min-height: 150px; display: flex; align-items: center; justify-content: space-between; padding: 28px 24px; border: 1px solid #dfe8e1; border-radius: 10px; background: #fff; }
+.sheet-skeleton-hero > div { display: grid; gap: 12px; }
+.skeleton-line, .skeleton-dot, .skeleton-circle, .skeleton-pill, .skeleton-ring { display: block; background: linear-gradient(100deg, #e8efeb 25%, #f5f8f6 45%, #e8efeb 65%); background-size: 220% 100%; animation: sheet-skeleton-shimmer 1.4s ease-in-out infinite; }
+.skeleton-line { height: 10px; border-radius: 5px; }
+.skeleton-kicker { width: 130px; height: 8px; }
+.skeleton-title { width: 230px; height: 27px; border-radius: 7px; }
+.skeleton-copy { width: 310px; }
+.skeleton-ring { width: 84px; height: 84px; border-radius: 50%; }
+.sheet-skeleton-toolbar { display: flex; justify-content: space-between; gap: 14px; padding: 13px 16px; border: 1px solid #dfe8e1; border-radius: 8px; background: #fff; }
+.skeleton-search { width: min(360px, 50%); height: 34px; border-radius: 8px; }
+.skeleton-filter { width: 220px; height: 30px; border-radius: 8px; }
+.sheet-skeleton-topic { overflow: hidden; border: 1px solid #e1e9e4; border-radius: 10px; background: #fff; }
+.sheet-skeleton-topic-head, .sheet-skeleton-subtopic, .sheet-skeleton-row { display: flex; align-items: center; gap: 12px; }
+.sheet-skeleton-topic-head { min-height: 58px; padding: 0 18px; }
+.sheet-skeleton-subtopic { min-height: 44px; padding: 0 32px; border-top: 1px solid #edf1ee; background: #fbfdfb; }
+.sheet-skeleton-rows { border-top: 1px solid #edf1ee; }
+.sheet-skeleton-row { min-height: 48px; padding: 0 32px; border-bottom: 1px solid #edf1ee; }
+.sheet-skeleton-row:last-child { border-bottom: 0; }
+.skeleton-dot { width: 12px; height: 12px; flex: 0 0 12px; border-radius: 50%; }
+.skeleton-dot.small { width: 8px; height: 8px; flex-basis: 8px; }
+.skeleton-circle { width: 18px; height: 18px; flex: 0 0 18px; border-radius: 50%; }
+.skeleton-topic-name { width: 190px; }
+.skeleton-topic-progress { width: 120px; margin-left: auto; }
+.skeleton-subtopic-name { width: 180px; }
+.skeleton-subtopic-meta { width: 90px; margin-left: auto; }
+.skeleton-question { width: min(54%, 420px); }
+.skeleton-pill { width: 52px; height: 20px; margin-left: auto; border-radius: 5px; }
+@keyframes sheet-skeleton-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -20% 0; } }
+body[data-app-theme="striver"] .sheet-skeleton-hero,
+body[data-app-theme="striver"] .sheet-skeleton-toolbar,
+body[data-app-theme="striver"] .sheet-skeleton-topic { border-color: #292929; background: #171717; }
+body[data-app-theme="striver"] .sheet-skeleton-subtopic { border-color: #292929; background: #111212; }
+body[data-app-theme="striver"] .sheet-skeleton-row { border-color: #252525; }
+body[data-app-theme="striver"] .skeleton-line,
+body[data-app-theme="striver"] .skeleton-dot,
+body[data-app-theme="striver"] .skeleton-circle,
+body[data-app-theme="striver"] .skeleton-pill,
+body[data-app-theme="striver"] .skeleton-ring { background: linear-gradient(100deg, #242424 25%, #343434 45%, #242424 65%); background-size: 220% 100%; }
+@media (max-width: 700px) { .sheet-skeleton-hero { padding: 22px 16px; } .skeleton-copy { width: 220px; } .skeleton-ring { width: 60px; height: 60px; } .sheet-skeleton-toolbar { flex-direction: column; } .skeleton-search, .skeleton-filter { width: 100%; } .sheet-skeleton-row, .sheet-skeleton-subtopic { padding-inline: 18px; } }
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #728277;
+  font: 600 11px var(--font-manrope), sans-serif;
+  cursor: pointer;
+}
+.theme-toggle-track { position: relative; width: 30px; height: 17px; border-radius: 20px; background: #d9e4dd; transition: background .2s ease; }
+.theme-toggle-track i { position: absolute; top: 3px; left: 3px; width: 11px; height: 11px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.18); transition: transform .2s ease; }
+.theme-toggle.is-on { color: #9ae6b4; }
+.theme-toggle.is-on .theme-toggle-track { background: #0b9f72; }
+.theme-toggle.is-on .theme-toggle-track i { transform: translateX(13px); }
+
 /* The dashboard reuses the Sheet shell; its content keeps the profile cards
    while the nested profile navigation is hidden to avoid duplicate chrome. */
 .compact-app .profile-app {
@@ -441,7 +566,49 @@ body {
 
 @media (max-width: 640px) {
   .app-navbar { padding: 0 18px; }
+  .app-view-label { display: none; }
 }
+
+/* Striver's dark practice palette. */
+body[data-app-theme="striver"] { background: #0d0f12 !important; color: #eef1f4 !important; }
+body[data-app-theme="striver"] .app-navbar { background: #101216; border-color: #282d35; }
+body[data-app-theme="striver"] .app-brand { color: #eef1f4; }
+body[data-app-theme="striver"] .app-brand span { color: #9ae6b4; }
+body[data-app-theme="striver"] .app-brand b { color: #89919e; }
+body[data-app-theme="striver"] .compact-main,
+body[data-app-theme="striver"] .profile-main { background: #0d0f12 !important; color: #eef1f4 !important; }
+body[data-app-theme="striver"] .compact-sidebar { background: #101216 !important; border-color: #282d35 !important; }
+body[data-app-theme="striver"] .compact-sidebar-head,
+body[data-app-theme="striver"] .compact-sidebar-footer { border-color: #282d35 !important; }
+body[data-app-theme="striver"] .sidebar-toggle { background: #15181d; border-color: #282d35; color: #aeb5bf; }
+body[data-app-theme="striver"] .compact-nav { color: #89919e; }
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav:hover { background: #1d2229 !important; color: #9ae6b4 !important; box-shadow: inset 2px 0 #9ae6b4 !important; }
+body[data-app-theme="striver"] .route-head,
+body[data-app-theme="striver"] .sheet-actions,
+body[data-app-theme="striver"] .curriculum-topic,
+body[data-app-theme="striver"] .curriculum-subtopics,
+body[data-app-theme="striver"] .curriculum-subtopic-head,
+body[data-app-theme="striver"] .curriculum-table-wrap,
+body[data-app-theme="striver"] .curriculum-row,
+body[data-app-theme="striver"] .profile-card { background: #15181d !important; border-color: #282d35 !important; color: #eef1f4 !important; }
+body[data-app-theme="striver"] .curriculum-topic-head,
+body[data-app-theme="striver"] .curriculum-table-head { background: #101216 !important; color: #eef1f4 !important; border-color: #282d35 !important; }
+body[data-app-theme="striver"] .curriculum-topic-title,
+body[data-app-theme="striver"] .curriculum-subtopic-head > span,
+body[data-app-theme="striver"] .curriculum-title-link,
+body[data-app-theme="striver"] .profile-card h2,
+body[data-app-theme="striver"] .profile-big-number,
+body[data-app-theme="striver"] .profile-ring strong { color: #eef1f4 !important; }
+body[data-app-theme="striver"] .curriculum-row { border-color: #282d35 !important; }
+body[data-app-theme="striver"] .curriculum-row:hover { background: #1d2229 !important; }
+body[data-app-theme="striver"] .status-checkbox { background: #23282f; }
+body[data-app-theme="striver"] .row-number,
+body[data-app-theme="striver"] .topic-progress-copy,
+body[data-app-theme="striver"] .profile-card p,
+body[data-app-theme="striver"] .profile-next-copy { color: #89919e !important; }
+body[data-app-theme="striver"] .question-color-menu { background: #15181d; border-color: #282d35; color: #eef1f4; }
+body[data-app-theme="striver"] .question-color-menu button { color: #cbd2d8; }
 /* Give the curriculum a clear topic -> subtopic -> question reading path. */
 .compact-app .curriculum-subtopic {
   position: relative;
@@ -465,4 +632,1821 @@ body {
 @media (max-width: 900px) {
   .compact-app .curriculum-subtopic::before { left: 26px; }
   .compact-app .curriculum-table-wrap { margin-left: 26px; }
+}
+/* Exact Striver-style dark palette from the reference. */
+body[data-app-theme="striver"] {
+  --striver-page: #202124;
+  --striver-panel: #2a2a2b;
+  --striver-surface: #101011;
+  --striver-surface-raised: #171718;
+  --striver-border: #292a2d;
+  --striver-border-soft: #1e1f21;
+  --striver-text: #f4f4f4;
+  --striver-muted: #8f9094;
+  --striver-green: #00c875;
+  --striver-green-dark: #0b582d;
+  --striver-yellow: #6c5515;
+  background: var(--striver-page) !important;
+  color: var(--striver-text) !important;
+}
+
+body[data-app-theme="striver"] .compact-main { background: var(--striver-page) !important; }
+body[data-app-theme="striver"] .compact-sidebar,
+body[data-app-theme="striver"] .app-navbar { background: var(--striver-surface-raised) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .compact-sidebar { color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .compact-nav { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav:hover { background: #222326 !important; color: var(--striver-green) !important; box-shadow: inset 2px 0 var(--striver-green) !important; }
+body[data-app-theme="striver"] .route-head,
+body[data-app-theme="striver"] .sheet-actions,
+body[data-app-theme="striver"] .curriculum-topic { background: var(--striver-panel) !important; border-color: #45464a !important; }
+body[data-app-theme="striver"] .curriculum-topic-head { background: var(--striver-panel) !important; color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .curriculum-subtopics,
+body[data-app-theme="striver"] .curriculum-subtopic-head,
+body[data-app-theme="striver"] .curriculum-table-wrap,
+body[data-app-theme="striver"] .curriculum-table-head,
+body[data-app-theme="striver"] .curriculum-row { background: var(--striver-surface) !important; color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .curriculum-subtopic-head { border-color: var(--striver-border-soft) !important; }
+body[data-app-theme="striver"] .curriculum-table-head { color: var(--striver-muted) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .curriculum-row { border-color: var(--striver-border-soft) !important; }
+body[data-app-theme="striver"] .curriculum-row:hover { background: var(--striver-surface-raised) !important; }
+body[data-app-theme="striver"] .curriculum-topic-title,
+body[data-app-theme="striver"] .curriculum-subtopic-head > span,
+body[data-app-theme="striver"] .curriculum-title-link { color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .row-number,
+body[data-app-theme="striver"] .topic-progress-copy,
+body[data-app-theme="striver"] .curriculum-subtopic-head small { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .curriculum-subtopic-head small { background: #303033 !important; }
+body[data-app-theme="striver"] .subtopic-dot { background: var(--striver-green) !important; }
+body[data-app-theme="striver"] .topic-progress-badge { background: var(--striver-green-dark) !important; color: var(--striver-green) !important; }
+body[data-app-theme="striver"] .status-checkbox { background: #17181a !important; border: 1px solid #3a3b3f !important; }
+body[data-app-theme="striver"] .status-checkbox.checked { background: var(--striver-green) !important; border-color: var(--striver-green) !important; color: #06170d !important; }
+body[data-app-theme="striver"] .difficulty-pill.easy { background: var(--striver-green-dark) !important; color: #50d98c !important; }
+body[data-app-theme="striver"] .difficulty-pill.medium { background: var(--striver-yellow) !important; color: #eadb8a !important; }
+body[data-app-theme="striver"] .difficulty-pill.hard { background: #60252b !important; color: #ff8e98 !important; }
+body[data-app-theme="striver"] .video-link { background: #552329 !important; color: #ff6470 !important; }
+body[data-app-theme="striver"] .personal-difficulty { background: #17181a !important; border-color: #3a3b3f !important; color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .note-action,
+body[data-app-theme="striver"] .revision-action,
+body[data-app-theme="striver"] .color-action { color: #c2c4c7 !important; }
+body[data-app-theme="striver"] .theme-toggle { color: var(--striver-green) !important; }
+body[data-app-theme="striver"] .route-head h1,
+body[data-app-theme="striver"] .route-head p,
+body[data-app-theme="striver"] .section-kicker,
+body[data-app-theme="striver"] .progress-total,
+body[data-app-theme="striver"] .progress-level { color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .route-head p,
+body[data-app-theme="striver"] .progress-total span,
+body[data-app-theme="striver"] .progress-level span { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .route-search,
+body[data-app-theme="striver"] .route-search input,
+body[data-app-theme="striver"] .filter-group { background: var(--striver-surface) !important; color: var(--striver-text) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .route-search input::placeholder { color: #77787c !important; }
+body[data-app-theme="striver"] .filter-group button { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .filter-group .filter-active { background: #e7f6ed !important; color: #087e53 !important; }
+body[data-app-theme="striver"] .curriculum-subtopic::before { background: var(--striver-border) !important; }
+body[data-app-theme="striver"] .topic-toggle,
+body[data-app-theme="striver"] .subtopic-toggle { background: #1b1c1e !important; color: var(--striver-green) !important; }
+body[data-app-theme="striver"] .topic-progress-track { background: #e2e5e3 !important; }
+body[data-app-theme="striver"] .topic-progress-track i { background: var(--striver-green) !important; }
+body[data-app-theme="striver"] .progress-gauge { color: var(--striver-text); }
+body[data-app-theme="striver"] .progress-breakdown strong { color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .route-panel { background: var(--striver-panel) !important; color: var(--striver-muted) !important; border-color: var(--striver-border) !important; }
+/* Apply the Striver palette to every app surface, not only the curriculum table. */
+body[data-app-theme="striver"] .profile-app,
+body[data-app-theme="striver"] .profile-workspace,
+body[data-app-theme="striver"] .profile-main,
+body[data-app-theme="striver"] .profile-intro,
+body[data-app-theme="striver"] .profile-sidebar,
+body[data-app-theme="striver"] .profile-topbar,
+body[data-app-theme="striver"] .route-page,
+body[data-app-theme="striver"] .app-shell,
+body[data-app-theme="striver"] .main,
+body[data-app-theme="striver"] .content-grid,
+body[data-app-theme="striver"] .bottom-grid { background: var(--striver-page) !important; color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .profile-topbar,
+body[data-app-theme="striver"] .topbar { border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .profile-sidebar,
+body[data-app-theme="striver"] .sidebar { background: var(--striver-surface-raised) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .profile-sidebar nav a,
+body[data-app-theme="striver"] .nav-item { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .profile-sidebar nav a.active,
+body[data-app-theme="striver"] .profile-sidebar nav a:hover,
+body[data-app-theme="striver"] .nav-item.active,
+body[data-app-theme="striver"] .nav-item:hover { background: #222326 !important; color: var(--striver-green) !important; box-shadow: inset 2px 0 var(--striver-green) !important; }
+body[data-app-theme="striver"] .profile-sidebar-label,
+body[data-app-theme="striver"] .profile-card-label,
+body[data-app-theme="striver"] .profile-kicker,
+body[data-app-theme="striver"] .eyebrow,
+body[data-app-theme="striver"] .section-kicker { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .profile-intro h1,
+body[data-app-theme="striver"] .profile-section-head h2,
+body[data-app-theme="striver"] .profile-next-card h2,
+body[data-app-theme="striver"] .profile-topic-row-top strong,
+body[data-app-theme="striver"] .profile-question strong,
+body[data-app-theme="striver"] .hero-row h2,
+body[data-app-theme="striver"] .sheet-hero h2,
+body[data-app-theme="striver"] .topbar h1 { color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .profile-intro p,
+body[data-app-theme="striver"] .profile-sidebar-note,
+body[data-app-theme="striver"] .profile-card p,
+body[data-app-theme="striver"] .profile-topic-row-top span,
+body[data-app-theme="striver"] .profile-question > svg,
+body[data-app-theme="striver"] .hero-copy { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .profile-card,
+body[data-app-theme="striver"] .stat-card,
+body[data-app-theme="striver"] .panel,
+body[data-app-theme="striver"] .profile-loading { background: var(--striver-panel) !important; border-color: var(--striver-border) !important; color: var(--striver-text) !important; box-shadow: none !important; }
+body[data-app-theme="striver"] .profile-total-card,
+body[data-app-theme="striver"] .profile-focus-card { background: var(--striver-surface-raised) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .profile-focus-card { background: #13251b !important; }
+body[data-app-theme="striver"] .profile-ring > div { background: var(--striver-surface) !important; }
+body[data-app-theme="striver"] .profile-bar,
+body[data-app-theme="striver"] .bar-track,
+body[data-app-theme="striver"] .progress-track { background: #292b2e !important; }
+body[data-app-theme="striver"] .question-mini,
+body[data-app-theme="striver"] .profile-question,
+body[data-app-theme="striver"] .user-row,
+body[data-app-theme="striver"] .total-solved { border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] input,
+body[data-app-theme="striver"] textarea,
+body[data-app-theme="striver"] select,
+body[data-app-theme="striver"] .icon-button,
+body[data-app-theme="striver"] .ghost-button,
+body[data-app-theme="striver"] .mobile-menu { background: var(--striver-surface) !important; border-color: var(--striver-border) !important; color: var(--striver-text) !important; }
+body[data-app-theme="striver"] .primary-button { background: var(--striver-green) !important; color: #06170d !important; }
+body[data-app-theme="striver"] .outline-button,
+body[data-app-theme="striver"] .ghost-button { color: var(--striver-muted) !important; }
+body[data-app-theme="striver"] .activity-panel,
+body[data-app-theme="striver"] .focus-panel { background: var(--striver-panel) !important; }
+body[data-app-theme="striver"] .heat-0 { background: #24262a !important; }
+body[data-app-theme="striver"] .heat-1 { background: #174a2b !important; }
+body[data-app-theme="striver"] .heat-2 { background: #18723f !important; }
+body[data-app-theme="striver"] .heat-3 { background: #00a85e !important; }
+body[data-app-theme="striver"] .heat-4 { background: #5de49c !important; }
+body[data-app-theme="striver"] .difficulty.easy { background: var(--striver-green-dark) !important; color: #50d98c !important; }
+body[data-app-theme="striver"] .difficulty.medium { background: var(--striver-yellow) !important; color: #eadb8a !important; }
+body[data-app-theme="striver"] .difficulty.hard { background: #60252b !important; color: #ff8e98 !important; }
+body[data-app-theme="striver"] .question-color-menu { background: var(--striver-panel) !important; border-color: #45464a !important; }
+/* Reference palette: near-black surfaces with orange progress accents. */
+body[data-app-theme="striver"] {
+  --striver-page: #101112;
+  --striver-panel: #171717;
+  --striver-surface: #111212;
+  --striver-surface-raised: #151515;
+  --striver-border: #292929;
+  --striver-border-soft: #212121;
+  --striver-text: #f5f5f5;
+  --striver-muted: #8e8e8e;
+  --striver-green: #70ee8b;
+  --striver-green-dark: #0d4d2a;
+  --striver-yellow: #efb735;
+  --striver-orange: #ff713f;
+  --striver-red: #f26868;
+}
+body[data-app-theme="striver"] .app-navbar,
+body[data-app-theme="striver"] .compact-sidebar,
+body[data-app-theme="striver"] .profile-topbar,
+body[data-app-theme="striver"] .profile-sidebar { background: #111212 !important; }
+body[data-app-theme="striver"] .compact-main,
+body[data-app-theme="striver"] .profile-app,
+body[data-app-theme="striver"] .profile-workspace { background: var(--striver-page) !important; }
+body[data-app-theme="striver"] .route-head,
+body[data-app-theme="striver"] .sheet-actions,
+body[data-app-theme="striver"] .curriculum-topic,
+body[data-app-theme="striver"] .profile-card,
+body[data-app-theme="striver"] .panel,
+body[data-app-theme="striver"] .stat-card { background: var(--striver-panel) !important; border-color: var(--striver-border) !important; }
+body[data-app-theme="striver"] .curriculum-topic-head,
+body[data-app-theme="striver"] .curriculum-subtopics,
+body[data-app-theme="striver"] .curriculum-subtopic-head,
+body[data-app-theme="striver"] .curriculum-table-wrap,
+body[data-app-theme="striver"] .curriculum-table-head,
+body[data-app-theme="striver"] .curriculum-row { background: var(--striver-surface) !important; }
+body[data-app-theme="striver"] .curriculum-topic-head { background: var(--striver-panel) !important; }
+body[data-app-theme="striver"] .topic-progress-track { background: #3a2b24 !important; }
+body[data-app-theme="striver"] .topic-progress-track i,
+body[data-app-theme="striver"] .progress-track div,
+body[data-app-theme="striver"] .profile-bar i { background: var(--striver-orange) !important; }
+body[data-app-theme="striver"] .topic-progress-badge { background: #0d4d2a !important; color: var(--striver-green) !important; }
+body[data-app-theme="striver"] .difficulty-pill.easy,
+body[data-app-theme="striver"] .difficulty.easy { background: #0d4d2a !important; color: var(--striver-green) !important; }
+body[data-app-theme="striver"] .difficulty-pill.medium,
+body[data-app-theme="striver"] .difficulty.medium { background: #5a4416 !important; color: #f2c64f !important; }
+body[data-app-theme="striver"] .difficulty-pill.hard,
+body[data-app-theme="striver"] .difficulty.hard { background: #5a2225 !important; color: #ff7777 !important; }
+body[data-app-theme="striver"] .video-link { background: #5a2225 !important; color: #ff7777 !important; }
+body[data-app-theme="striver"] .filter-group .filter-active { background: #252525 !important; color: #f5f5f5 !important; border-color: #3a3a3a !important; }
+body[data-app-theme="striver"] .progress-level.easy i { background: var(--striver-green) !important; }
+body[data-app-theme="striver"] .progress-level.medium i { background: var(--striver-yellow) !important; }
+body[data-app-theme="striver"] .progress-level.hard i { background: var(--striver-red) !important; }
+body[data-app-theme="striver"] .compact-main,
+body[data-app-theme="striver"] .compact-main h1,
+body[data-app-theme="striver"] .compact-main h2,
+body[data-app-theme="striver"] .compact-main h3,
+body[data-app-theme="striver"] .compact-main p,
+body[data-app-theme="striver"] .compact-main span,
+body[data-app-theme="striver"] .compact-main strong,
+body[data-app-theme="striver"] .compact-main a { color: #eeeeee; }
+body[data-app-theme="striver"] .route-head p,
+body[data-app-theme="striver"] .topic-progress-copy,
+body[data-app-theme="striver"] .row-number,
+body[data-app-theme="striver"] .curriculum-table-head,
+body[data-app-theme="striver"] .curriculum-subtopic-head small,
+body[data-app-theme="striver"] .video-unavailable { color: #858585 !important; }
+body[data-app-theme="striver"] .curriculum-table-head,
+body[data-app-theme="striver"] .curriculum-row,
+body[data-app-theme="striver"] .curriculum-subtopic,
+body[data-app-theme="striver"] .curriculum-table-wrap,
+body[data-app-theme="striver"] .curriculum-topic,
+body[data-app-theme="striver"] .sheet-actions,
+body[data-app-theme="striver"] .route-head { border-color: #292929 !important; }
+body[data-app-theme="striver"] .curriculum-row { border-top-color: #222222 !important; }
+body[data-app-theme="striver"] .curriculum-subtopic + .curriculum-subtopic { border-top-color: #292929 !important; }
+body[data-app-theme="striver"] .curriculum-subtopic-head,
+body[data-app-theme="striver"] .curriculum-topic-head { color: #eeeeee !important; }
+body[data-app-theme="striver"] .curriculum-title-link,
+body[data-app-theme="striver"] .curriculum-subtopic-head > span:not(.subtopic-toggle):not(.subtopic-dot),
+body[data-app-theme="striver"] .curriculum-topic-title { color: #eeeeee !important; }
+body[data-app-theme="striver"] .curriculum-title-link:hover { color: #ffffff !important; }
+body[data-app-theme="striver"] .compact-main .section-kicker,
+body[data-app-theme="striver"] .compact-main .curriculum-table-head,
+body[data-app-theme="striver"] .compact-main .curriculum-table-head span,
+body[data-app-theme="striver"] .compact-main .curriculum-table-head span:nth-child(3) { color: #8b8b8b !important; }
+body[data-app-theme="striver"] .compact-main .route-head h1,
+body[data-app-theme="striver"] .compact-main .curriculum-topic-title,
+body[data-app-theme="striver"] .compact-main .curriculum-subtopic-head > span:not(.subtopic-toggle):not(.subtopic-dot),
+body[data-app-theme="striver"] .compact-main .curriculum-title-link { color: #f1f1f1 !important; }
+body[data-app-theme="striver"] .compact-main .route-head p,
+body[data-app-theme="striver"] .compact-main .topic-progress-copy,
+body[data-app-theme="striver"] .compact-main .row-number,
+body[data-app-theme="striver"] .compact-main .curriculum-subtopic-head small { color: #888888 !important; }
+body[data-app-theme="striver"] .compact-main .curriculum-title-link:hover { color: #ffffff !important; }
+body[data-app-theme="striver"] .compact-main .curriculum-subtopic-head strong { color: #70ee8b !important; }
+body[data-app-theme="striver"] .compact-main .progress-total strong,
+body[data-app-theme="striver"] .compact-main .progress-level strong { color: #eeeeee !important; }
+@media (max-width: 520px) {
+  .app-navbar { padding-inline: 12px; }
+  .app-navbar-actions { margin-left: auto; }
+  .theme-toggle { width: 38px; height: 30px; min-width: 38px; padding: 5px 4px; justify-content: center; }
+  .theme-toggle > span:last-child { display: none; }
+  .theme-toggle-track { flex-basis: 30px; }
+}
+body[data-app-theme="striver"] .sheet-utilities button {
+  background: #171717 !important;
+  color: #c5c5c5 !important;
+  border-color: #393939 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .35) !important;
+}
+body[data-app-theme="striver"] .sheet-utilities button:hover {
+  background: #252525 !important;
+  color: #ffffff !important;
+  border-color: #555555 !important;
+}
+body[data-app-theme="striver"] .compact-main .curriculum-row .color-action,
+body[data-app-theme="striver"] .compact-main .curriculum-row .revision-action,
+body[data-app-theme="striver"] .compact-main .curriculum-row .note-action { color: #c3c3c3 !important; }
+body[data-app-theme="striver"] .compact-main .curriculum-row .color-action:hover,
+body[data-app-theme="striver"] .compact-main .curriculum-row .revision-action:hover,
+body[data-app-theme="striver"] .compact-main .curriculum-row .note-action:hover { background: #252525 !important; color: #ffffff !important; }
+/* Coloured question rows need their own readable foreground. */
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] {
+  color: #1b1b1b !important;
+}
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .curriculum-title-link,
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .row-number,
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .color-action,
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .revision-action,
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .note-action {
+  color: #1b1b1b !important;
+}
+body[data-app-theme="striver"] .compact-main .curriculum-row[style*="background"] .curriculum-title-link:hover {
+  color: #000000 !important;
+}
+.compact-app .compact-sidebar {
+  position: fixed !important;
+  z-index: 20;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  height: calc(100vh - 60px) !important;
+  min-height: 0 !important;
+  max-height: none;
+  overflow: hidden !important;
+}
+.compact-app .compact-workspace { padding-left: 248px; }
+.compact-app .compact-main { width: 100%; }
+
+@media (max-width: 900px) {
+  .compact-app .compact-workspace { padding-left: 0; }
+  .compact-app .compact-sidebar { top: 60px; width: 248px; height: calc(100vh - 60px) !important; }
+  .compact-app.sidebar-is-collapsed .compact-sidebar { transform: translateX(-100%); }
+}
+/* Keep wide question tables scrollable without allowing the whole app to drift. */
+.compact-app { width: 100%; max-width: 100vw; overflow-x: hidden; }
+.compact-workspace { min-width: 0; width: 100%; }
+.compact-main { min-width: 0; max-width: 100%; overflow-x: hidden; }
+.app-navbar { min-width: 0; white-space: nowrap; }
+.app-brand { flex: 0 0 auto; white-space: nowrap; }
+.app-navbar-actions { min-width: 0; flex: 0 0 auto; white-space: nowrap; }
+.theme-toggle { white-space: nowrap; flex: 0 0 auto; }
+.route-head.sheet-table-hero { min-width: 0; flex-wrap: wrap; gap: 20px; }
+.route-head.sheet-table-hero > div:first-child { min-width: 0; flex: 1 1 420px; }
+.progress-summary { flex: 0 1 auto; min-width: 0; }
+.sheet-actions { min-width: 0; max-width: 100%; overflow: hidden; }
+.route-search { min-width: 0; }
+.route-search input { min-width: 0; }
+
+@media (max-width: 900px) {
+  .app-navbar { padding-inline: 16px; }
+  .app-view-label { display: none; }
+  .route-head.sheet-table-hero { align-items: flex-start; }
+  .progress-summary { width: 100%; justify-content: flex-start; }
+}
+body[data-app-theme="striver"] html,
+body[data-app-theme="striver"],
+body[data-app-theme="striver"] .compact-app { width: 100%; max-width: 100%; overflow-x: hidden !important; }
+body[data-app-theme="striver"] .compact-main .route-page { width: 100%; max-width: 100%; box-sizing: border-box; overflow: visible; }
+body[data-app-theme="striver"] .compact-main .route-head h1 { color: #f5f5f5 !important; }
+body[data-app-theme="striver"] .compact-main .route-head p { color: #858585 !important; }
+body[data-app-theme="striver"] .compact-main .route-search,
+body[data-app-theme="striver"] .compact-main .route-search input { background: #111212 !important; color: #eeeeee !important; }
+body[data-app-theme="striver"] .compact-main .progress-gauge > div { background: #171717 !important; color: #f5f5f5 !important; }
+body[data-app-theme="striver"] .compact-main .progress-gauge strong { color: #f5f5f5 !important; }
+body[data-app-theme="striver"] .compact-main .progress-gauge span { color: #858585 !important; }
+body[data-app-theme="striver"] .app-navbar { position: relative; z-index: 10; overflow: hidden; }
+body[data-app-theme="striver"] .theme-toggle { min-height: 32px; padding: 6px 10px; border: 1px solid #343434; border-radius: 999px; background: #181818; color: #eeeeee !important; }
+body[data-app-theme="striver"] .theme-toggle:hover { border-color: #70ee8b; background: #202020; }
+body[data-app-theme="striver"] .theme-toggle-track { flex: 0 0 30px; background: #383838; }
+body[data-app-theme="striver"] .theme-toggle.is-on { color: #70ee8b !important; }
+body[data-app-theme="striver"] .theme-toggle.is-on .theme-toggle-track { background: #23834c; }
+body[data-app-theme="striver"] .app-navbar-actions { margin-left: auto; padding-right: 2px; }
+body[data-app-theme="striver"] .leetcode-logo {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  mix-blend-mode: screen;
+}
+
+.compact-app .compact-sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+}
+
+.compact-app .compact-main {
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+@media (max-width: 900px) {
+  .compact-app .compact-sidebar {
+    position: fixed;
+    top: 60px;
+    height: calc(100vh - 60px) !important;
+    min-height: calc(100vh - 60px) !important;
+  }
+}
+
+/* Final shell positioning: the sidebar stays fixed while content scrolls. */
+.compact-app .compact-sidebar {
+  position: fixed !important;
+  z-index: 20;
+  top: 60px;
+  left: 0;
+  bottom: 0;
+  width: 248px;
+  height: calc(100vh - 60px) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+}
+.compact-app .compact-workspace { padding-left: 248px; }
+.compact-app .compact-main { width: 100%; min-height: calc(100vh - 60px); }
+@media (max-width: 900px) {
+  .compact-app .compact-workspace { padding-left: 0; }
+  .compact-app .compact-sidebar { width: 248px; }
+  .compact-app.sidebar-is-collapsed .compact-sidebar { transform: translateX(-100%); }
+}
+body[data-app-theme="striver"] .compact-app .compact-nav.active,
+body[data-app-theme="striver"] .compact-app .compact-nav:hover {
+  background: transparent !important;
+  color: #70ee8b !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+body[data-app-theme="striver"] .compact-app .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-app .compact-nav:hover svg { color: #70ee8b !important; }
+
+/* Keep the theme control fully visible on narrow screens. The text label is
+   supplementary; the switch and its accessible name remain available. */
+@media (max-width: 640px) {
+  .app-navbar {
+    padding-inline: 12px;
+    overflow: visible !important;
+  }
+
+  .app-navbar-actions {
+    gap: 0;
+    margin-left: auto;
+  }
+
+  .theme-toggle,
+  body[data-app-theme="striver"] .theme-toggle {
+    width: 40px;
+    min-width: 40px;
+    height: 32px;
+    min-height: 32px;
+    padding: 6px 4px;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .theme-toggle-label {
+    display: none !important;
+  }
+}
+
+/* Keep the shared navbar visible while the workspace scrolls. */
+.app-navbar {
+  position: sticky !important;
+  top: 0;
+  z-index: 50;
+}
+
+/* Keep the theme control beside the brand so it is not pushed beyond the
+   visible edge on compact screens. */
+.app-navbar-actions {
+  margin-left: 24px;
+  margin-right: auto;
+}
+
+@media (max-width: 640px) {
+  .app-navbar-actions {
+    margin-left: 12px;
+    margin-right: auto;
+  }
+}
+
+/* Use the same geometry and anchor in both themes; only the palette changes. */
+body[data-app-theme] .app-navbar-actions {
+  margin-left: 24px;
+  margin-right: auto;
+  padding-right: 0;
+}
+
+body[data-app-theme] .theme-toggle {
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid #cfd9d3;
+  border-radius: 999px;
+  background: #f3f6f4;
+  color: #496056;
+}
+
+/* Theme-aware controls for the curriculum table and its colour picker. */
+body[data-app-theme="default"] .question-color-menu,
+body[data-app-theme="light"] .question-color-menu {
+  background: #ffffff;
+  border-color: #dce7df;
+  box-shadow: 0 10px 28px rgba(31, 56, 43, .16);
+}
+
+body[data-app-theme="default"] .question-color-menu button,
+body[data-app-theme="light"] .question-color-menu button {
+  color: #40564c !important;
+}
+
+body[data-app-theme="default"] .question-color-menu button:hover,
+body[data-app-theme="light"] .question-color-menu button:hover {
+  background: #edf7f0;
+  color: #087e53 !important;
+}
+
+body[data-app-theme="striver"] .question-color-menu {
+  background: #171717 !important;
+  border-color: #45464a !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+}
+
+body[data-app-theme="striver"] .question-color-menu button {
+  color: #eeeeee !important;
+}
+
+body[data-app-theme="striver"] .question-color-menu button:hover {
+  background: #252525 !important;
+  color: #70ee8b !important;
+}
+
+body[data-app-theme="striver"] .curriculum-row:not([style*="background"]) .note-action,
+body[data-app-theme="striver"] .curriculum-row:not([style*="background"]) .revision-action,
+body[data-app-theme="striver"] .curriculum-row:not([style*="background"]) .color-action {
+  color: #c3c3c3 !important;
+}
+
+/* Striver dark accent: use the reference orange instead of green. */
+body[data-app-theme="striver"] {
+  --green: #ff713f;
+  --striver-green: #ff713f;
+  --striver-green-dark: #4d2417;
+}
+
+body[data-app-theme="striver"] .app-brand span,
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav:hover,
+body[data-app-theme="striver"] .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-nav:hover svg,
+body[data-app-theme="striver"] .compact-main .curriculum-subtopic-head strong,
+body[data-app-theme="striver"] .theme-toggle.is-on,
+body[data-app-theme="striver"] .theme-toggle:hover {
+  color: #ff713f !important;
+}
+
+body[data-app-theme="striver"] .theme-toggle:hover {
+  border-color: #ff713f !important;
+}
+
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav:hover {
+  box-shadow: none !important;
+}
+
+body[data-app-theme="striver"] .topic-progress-track i,
+body[data-app-theme="striver"] .status-checkbox.checked,
+body[data-app-theme="striver"] .subtopic-dot,
+body[data-app-theme="striver"] .progress-level.easy i {
+  background: #ff713f !important;
+  border-color: #ff713f !important;
+}
+
+body[data-app-theme="striver"] .topic-progress-badge,
+body[data-app-theme="striver"] .difficulty-pill.easy,
+body[data-app-theme="striver"] .difficulty.easy {
+  background: #4d2417 !important;
+  color: #ff9a78 !important;
+}
+
+/* Difficulty keeps its semantic palette in dark mode. */
+body[data-app-theme="striver"] .difficulty-pill.easy,
+body[data-app-theme="striver"] .difficulty.easy,
+body[data-app-theme="striver"] .filter-group button:nth-child(2) {
+  background: #0d4d2a !important;
+  color: #70ee8b !important;
+}
+
+body[data-app-theme="striver"] .difficulty-pill.medium,
+body[data-app-theme="striver"] .difficulty.medium,
+body[data-app-theme="striver"] .filter-group button:nth-child(3) {
+  background: #5a4416 !important;
+  color: #f2c64f !important;
+}
+
+body[data-app-theme="striver"] .difficulty-pill.hard,
+body[data-app-theme="striver"] .difficulty.hard,
+body[data-app-theme="striver"] .filter-group button:nth-child(4) {
+  background: #5a2225 !important;
+  color: #ff7777 !important;
+}
+
+body[data-app-theme="striver"] .progress-level.easy i { background: #70ee8b !important; }
+body[data-app-theme="striver"] .progress-level.medium i { background: #f2c64f !important; }
+body[data-app-theme="striver"] .progress-level.hard i { background: #ff7777 !important; }
+
+/* Keep the same Easy / Medium / Hard meaning in the light theme filters. */
+body[data-app-theme="default"] .filter-group button:nth-child(2),
+body[data-app-theme="light"] .filter-group button:nth-child(2) { color: #087e53 !important; }
+body[data-app-theme="default"] .filter-group button:nth-child(3),
+body[data-app-theme="light"] .filter-group button:nth-child(3) { color: #a66a16 !important; }
+body[data-app-theme="default"] .filter-group button:nth-child(4),
+body[data-app-theme="light"] .filter-group button:nth-child(4) { color: #b54747 !important; }
+
+/* Stronger green accents for readable light-theme text. */
+body[data-app-theme="default"],
+body[data-app-theme="light"] {
+  --green: #087e53;
+}
+
+body[data-app-theme="default"] .compact-app .route-head p::before,
+body[data-app-theme="light"] .compact-app .route-head p::before {
+  color: #087e53 !important;
+}
+
+/* Final dark-theme active navigation accent. */
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav.active span,
+body[data-app-theme="striver"] .compact-nav.active svg {
+  color: #ff713f !important;
+}
+
+body[data-app-theme="striver"] .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-nav.active svg * {
+  color: #ff713f !important;
+  stroke: #ff713f !important;
+}
+
+/* Keep the sheet header and controls flat on the page. Individual controls
+   and topic sections retain their own boundaries. */
+.compact-app .route-head,
+.compact-app .sheet-actions {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.compact-app .route-head {
+  padding-inline: 0 !important;
+  padding-top: 20px !important;
+  padding-bottom: 24px !important;
+}
+
+.compact-app .sheet-actions {
+  padding-inline: 0 !important;
+  margin-bottom: 16px !important;
+}
+
+body[data-app-theme="striver"] .compact-app .route-head,
+body[data-app-theme="striver"] .compact-app .sheet-actions {
+  background: #101112 !important;
+}
+
+body[data-app-theme="striver"] .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-nav.active svg * {
+  color: #ff713f !important;
+  stroke: #ff713f !important;
+}
+
+/* Keep the sheet header and controls open on the page instead of wrapping
+   the whole area in large decorative cards. Individual controls and topic
+   sections retain their own boundaries. */
+.compact-app .route-head,
+.compact-app .sheet-actions {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.compact-app .route-head {
+  padding-inline: 0 !important;
+  padding-top: 20px !important;
+  padding-bottom: 24px !important;
+}
+
+.compact-app .sheet-actions {
+  padding-inline: 0 !important;
+  margin-bottom: 16px !important;
+}
+
+/* Clean, consistent search control styling. */
+.compact-app .route-search {
+  min-height: 42px;
+  padding: 0 13px;
+  gap: 9px;
+  border-radius: 10px;
+}
+
+.compact-app .route-search-icon {
+  flex: 0 0 auto;
+  color: #6f7d75;
+}
+
+.compact-app .route-search input {
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+}
+
+body[data-app-theme="striver"] .compact-app .route-search-icon {
+  color: #c3c3c3;
+}
+
+/* Striver theme uses spacing and background contrast instead of dividers
+   between subtopic headers. */
+body[data-app-theme="striver"] .curriculum-subtopic,
+body[data-app-theme="striver"] .curriculum-subtopic + .curriculum-subtopic {
+  border-top: 0 !important;
+}
+
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-nav:hover,
+body[data-app-theme="striver"] .compact-nav:hover svg {
+  color: #ff713f !important;
+}
+
+body[data-app-theme="striver"] .theme-toggle.is-on .theme-toggle-track {
+  background: #ff713f !important;
+}
+
+/* Prevent the light workspace from flashing through during sidebar collapse. */
+body[data-app-theme="striver"] .compact-workspace,
+body[data-app-theme="striver"] .compact-main {
+  background: #101112 !important;
+}
+
+body[data-app-theme="striver"] .compact-workspace {
+  transition: padding-left .22s ease;
+}
+
+body[data-app-theme="striver"] .compact-sidebar {
+  background: #111212 !important;
+  border-right-color: #292929 !important;
+}
+
+/* Desktop sidebar collapse must also override the fixed shell dimensions. */
+@media (min-width: 901px) {
+  .compact-app.sidebar-is-open .compact-sidebar {
+    width: 248px;
+  }
+
+  .compact-app.sidebar-is-open .compact-workspace {
+    padding-left: 248px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    width: 76px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-workspace {
+    padding-left: 76px;
+  }
+}
+
+/* On narrower screens the fixed profile rail would cover the sheet. Let the
+   main content use the full width instead. */
+@media (max-width: 1200px) {
+  .sheet-page-shell {
+    display: block;
+  }
+
+  .profile-summary-sidebar {
+    display: none !important;
+  }
+
+  .sheet-utilities {
+    right: 14px;
+  }
+}
+
+/* Guest profile rail: make the sign-in invitation feel like a real product
+   surface, with a useful preview of what becomes available after login. */
+.guest-profile-prompt {
+  position: fixed;
+  z-index: 4;
+  top: 92px;
+  right: 24px;
+  width: min(330px, calc(100vw - 48px));
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  color: #f5f5f5;
+}
+
+.guest-auth-card,
+.guest-locked-chart {
+  border: 1px solid #303030;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #1c1c1c, #141414);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .18);
+}
+
+.guest-auth-card { padding: 20px; }
+.guest-auth-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.guest-profile-kicker,
+.guest-chart-kicker { margin: 0; color: #999; font-size: 9px; font-weight: 800; letter-spacing: 1.4px; }
+.guest-auth-status { display: inline-flex; align-items: center; gap: 5px; color: #888; font-size: 9px; }
+.guest-auth-status span { width: 6px; height: 6px; border-radius: 50%; background: #ff713f; box-shadow: 0 0 0 3px rgba(255,113,63,.12); }
+.guest-auth-heading { display: flex; gap: 12px; margin: 21px 0 18px; }
+.guest-auth-icon { flex: 0 0 34px; width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid rgba(255,113,63,.35); border-radius: 10px; color: #ff8a62; background: rgba(255,113,63,.1); }
+.guest-auth-heading h2 { margin: 0 0 6px; color: #f7f7f7; font-size: 20px; line-height: 1.12; letter-spacing: -.55px; }
+.guest-auth-heading p { margin: 0; color: #a4a4a4; font-size: 11px; line-height: 1.55; }
+.guest-google-button { display: flex; align-items: center; gap: 9px; width: 100%; padding: 11px 12px; border: 1px solid #ff713f; border-radius: 9px; color: #fff !important; background: #ff713f; text-decoration: none; font-size: 12px; font-weight: 800; box-shadow: 0 8px 18px rgba(255,113,63,.15); transition: transform .18s ease, background .18s ease; }
+.guest-google-button:hover { background: #ff8255; transform: translateY(-1px); text-decoration: none; }
+.guest-google-button > span:nth-child(2) { flex: 1; }
+.guest-google-button .google-mark { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; color: #2c2c2c; background: #fff; font-size: 13px; font-weight: 900; }
+.guest-google-button .google-mark svg { width: 16px; height: 16px; display: block; }
+.guest-auth-card small { display: flex; align-items: center; gap: 5px; margin: 11px 0 0; color: #818181; font-size: 9px; line-height: 1.4; }
+.guest-auth-card small svg { color: #8fd0a2; flex: 0 0 auto; }
+
+.guest-locked-chart { position: relative; overflow: hidden; padding: 17px 17px 15px; }
+.guest-chart-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.guest-chart-head strong { display: block; margin-top: 6px; color: #ededed; font-size: 12px; }
+.guest-lock-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 7px; border: 1px solid #383838; border-radius: 6px; color: #a8a8a8; background: #202020; font-size: 9px; }
+.guest-chart-preview { display: flex; gap: 8px; height: 128px; margin-top: 18px; filter: blur(1.9px); opacity: .7; }
+.guest-chart-y-axis { display: flex; flex-direction: column; justify-content: space-between; padding: 2px 0 21px; color: #6d6d6d; font-size: 8px; }
+.guest-chart-plot { position: relative; flex: 1; min-width: 0; }
+.guest-chart-grid { position: absolute; inset: 0 0 20px; display: flex; flex-direction: column; justify-content: space-between; }
+.guest-chart-grid i { display: block; border-top: 1px dashed #343434; }
+.guest-chart-line { position: absolute; inset: 0 0 20px; width: 100%; height: calc(100% - 20px); overflow: visible; }
+.guest-chart-line path { fill: none; stroke: #ff713f; stroke-width: 3; stroke-linecap: round; }
+.guest-chart-bars { position: absolute; inset: 0 0 20px; display: flex; align-items: end; justify-content: space-around; gap: 5px; padding: 0 7px; }
+.guest-chart-bars i { display: block; width: 14px; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, rgba(255,113,63,.55), rgba(255,113,63,.12)); }
+.guest-chart-labels { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; color: #6d6d6d; font-size: 8px; }
+.guest-chart-overlay { position: absolute; inset: 58px 14px 15px; display: grid; place-items: center; text-align: center; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(20,20,20,.72); backdrop-filter: blur(4px); }
+.guest-chart-overlay div { display: grid; justify-items: center; gap: 4px; }
+.guest-chart-overlay svg { color: #ff8a62; margin-bottom: 2px; }
+.guest-chart-overlay strong { color: #f0f0f0; font-size: 11px; }
+.guest-chart-overlay span { max-width: 190px; color: #9b9b9b; font-size: 9px; line-height: 1.35; }
+
+body[data-app-theme="default"] .guest-auth-card,
+body[data-app-theme="light"] .guest-auth-card,
+body[data-app-theme="default"] .guest-locked-chart,
+body[data-app-theme="light"] .guest-locked-chart { border-color: #d8e2dc; background: linear-gradient(145deg, #fff, #f7faf8); box-shadow: 0 18px 45px rgba(39, 76, 58, .1); }
+body[data-app-theme="default"] .guest-auth-heading h2,
+body[data-app-theme="light"] .guest-auth-heading h2,
+body[data-app-theme="default"] .guest-chart-head strong,
+body[data-app-theme="light"] .guest-chart-head strong { color: #16253b; }
+body[data-app-theme="default"] .guest-auth-heading p,
+body[data-app-theme="light"] .guest-auth-heading p { color: #61736a; }
+body[data-app-theme="default"] .guest-auth-card small,
+body[data-app-theme="light"] .guest-auth-card small,
+body[data-app-theme="default"] .guest-profile-kicker,
+body[data-app-theme="light"] .guest-profile-kicker,
+body[data-app-theme="default"] .guest-chart-kicker,
+body[data-app-theme="light"] .guest-chart-kicker { color: #75847c; }
+body[data-app-theme="default"] .guest-lock-badge,
+body[data-app-theme="light"] .guest-lock-badge { border-color: #dce5df; color: #61736a; background: #f1f6f3; }
+body[data-app-theme="default"] .guest-chart-overlay,
+body[data-app-theme="light"] .guest-chart-overlay { border-color: rgba(22,37,59,.08); background: rgba(247,250,248,.84); }
+body[data-app-theme="default"] .guest-chart-overlay strong,
+body[data-app-theme="light"] .guest-chart-overlay strong { color: #16253b; }
+body[data-app-theme="default"] .guest-chart-overlay span,
+body[data-app-theme="light"] .guest-chart-overlay span { color: #61736a; }
+
+@media (max-width: 1200px) {
+  .guest-profile-prompt { position: relative; top: auto; right: auto; width: min(100%, 440px); margin: 12px auto 28px; padding: 0 18px; }
+}
+
+@media (max-width: 600px) {
+  .guest-profile-prompt { width: 100%; margin-top: 18px; padding: 0 12px; }
+  .guest-auth-card { padding: 18px; }
+}
+
+/* Authentication gate */
+.auth-gate{min-height:calc(100vh - 70px);display:grid;place-items:center;padding:40px 24px;background:transparent}
+.auth-card{width:min(100%,460px);padding:42px 40px;text-align:center;color:#16253b}
+.auth-icon{width:54px;height:54px;margin:0 auto 22px;display:grid;place-items:center;color:#07865a}
+.auth-kicker{display:block;margin-bottom:12px;color:#75847c;font-size:11px;font-weight:800;letter-spacing:1.5px}
+.auth-card h1{margin:0;color:#10233a;font-size:28px;letter-spacing:-.5px}
+.auth-card p{margin:14px auto 26px;max-width:350px;color:#61736a;font-size:14px;line-height:1.6}
+.google-auth-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;color:#07865a!important;text-decoration:none;font-size:14px;font-weight:800;transition:color .2s}
+.google-auth-button:hover{color:#045f42!important;text-decoration:underline}
+.auth-card small{display:block;margin-top:16px;color:#83928a;font-size:11px;line-height:1.5}
+.auth-error{margin:-8px 0 16px;padding:10px;border-radius:8px;background:#fff0ef;color:#b13f37;font-size:12px}
+.auth-gate-loading{min-height:calc(100vh - 70px)}
+.auth-logout-button{border:1px solid #dce5df;background:transparent;color:#61736a;border-radius:9px;padding:8px 12px;font-size:11px;font-weight:800;cursor:pointer}
+.auth-logout-button:hover{border-color:#0aa978;color:#07865a}
+.auth-login-link{color:#07865a;text-decoration:none;font-size:11px;font-weight:800}
+.auth-login-link:hover{text-decoration:underline}
+body[data-authenticated="false"] .profile-summary-sidebar .profile-identity,
+body[data-authenticated="false"] .profile-summary-sidebar .profile-bio,
+body[data-authenticated="false"] .profile-summary-sidebar .profile-summary-heading,
+body[data-authenticated="false"] .profile-summary-sidebar .profile-summary-overview,
+body[data-authenticated="false"] .profile-summary-sidebar .profile-summary-stats{display:none}
+.guest-profile-prompt{position:fixed;z-index:4;top:112px;right:28px;width:320px;padding:8px 0 0;color:#16253b}
+.guest-profile-kicker{display:block;margin-bottom:15px;color:#7b8a83;font-size:10px;font-weight:800;letter-spacing:1.5px}
+.guest-profile-prompt h2{margin:0 0 10px;color:#10233a;font-size:22px;line-height:1.2;letter-spacing:-.3px}
+.guest-profile-prompt p{margin:0 0 22px;color:#718079;font-size:12px;line-height:1.6}
+.guest-google-button{display:flex;align-items:center;gap:9px;width:max-content;color:#07865a!important;text-decoration:none;font-size:13px;font-weight:800}
+.guest-google-button:hover{color:#045f42!important;text-decoration:underline}
+.guest-google-button .google-mark{display:grid;place-items:center;width:24px;height:24px;border:1px solid #d8e5dd;border-radius:50%;font-weight:800;color:#4285f4}
+.guest-profile-prompt small{display:block;margin-top:12px;color:#8b9891;font-size:10px}
+.auth-spinner{width:30px;height:30px;border:3px solid #dce8e1;border-top-color:#0aa978;border-radius:50%;animation:auth-spin .8s linear infinite}
+@keyframes auth-spin{to{transform:rotate(360deg)}}
+body[data-app-theme="striver"] .auth-gate{background:transparent}
+body[data-app-theme="striver"] .auth-card{color:#eef1f4}
+body[data-app-theme="striver"] .auth-icon{color:#ff6b3d}
+body[data-app-theme="striver"] .auth-kicker,.auth-card small{color:#89919e}
+body[data-app-theme="striver"] .auth-card h1{color:#f5f6f7}
+body[data-app-theme="striver"] .auth-card p{color:#aab4bf}
+body[data-app-theme="striver"] .google-auth-button{color:#ff6b3d!important}
+body[data-app-theme="striver"] .google-auth-button:hover{color:#ff9a78!important}
+body[data-app-theme="striver"] .auth-spinner{border-color:#303841;border-top-color:#ff6b3d}
+body[data-app-theme="striver"] .auth-logout-button{border-color:#39434d;color:#b8c5cf}
+body[data-app-theme="striver"] .auth-logout-button:hover{border-color:#ff6b3d;color:#ff6b3d}
+body[data-app-theme="striver"] .auth-login-link{color:#ff6b3d}
+body[data-authenticated="false"][data-app-theme="striver"] .profile-summary-sidebar::before{color:#ff6b3d}
+body[data-app-theme="striver"] .guest-profile-prompt{color:#eef1f4}
+body[data-app-theme="striver"] .guest-profile-kicker{color:#89919e}
+body[data-app-theme="striver"] .guest-profile-prompt h2{color:#f5f6f7}
+body[data-app-theme="striver"] .guest-profile-prompt p{color:#aab4bf}
+body[data-app-theme="striver"] .guest-google-button{color:#ff6b3d!important}
+body[data-app-theme="striver"] .guest-google-button:hover{color:#ff9a78!important}
+body[data-app-theme="striver"] .guest-google-button .google-mark{border-color:#39434d}
+body[data-app-theme="striver"] .guest-profile-prompt small{color:#89919e}
+@media(max-width:1200px){.guest-profile-prompt{display:none}}
+@media(max-width:600px){.auth-card{padding:32px 24px;border-radius:18px}.auth-card h1{font-size:23px}}
+
+/* Match the mobile drawer animation to the Striver dark palette. */
+@media (max-width: 900px) {
+  body[data-app-theme="striver"] .compact-sidebar {
+    background: #111212 !important;
+    border-color: #292929 !important;
+    box-shadow: 12px 0 30px rgba(0, 0, 0, .45);
+  }
+
+  body[data-app-theme="striver"] .sidebar-scrim {
+    background: rgba(0, 0, 0, .68) !important;
+  }
+
+  body[data-app-theme="striver"] .sidebar-reopen {
+    background: #171717 !important;
+    border-color: #393939 !important;
+    color: #c5c5c5 !important;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, .35);
+  }
+}
+
+body[data-app-theme="striver"] .theme-toggle {
+  border-color: #343434;
+  background: #181818;
+  color: #eeeeee !important;
+}
+
+@media (max-width: 640px) {
+  body[data-app-theme] .app-navbar-actions {
+    margin-left: auto;
+    margin-right: 0;
+    justify-content: flex-end;
+  }
+}
+
+/* Fixed positioning keeps the navbar visible even when the workspace itself
+   is the scrolling container. */
+.app-navbar {
+  position: fixed !important;
+  inset: 0 0 auto;
+  width: 100%;
+}
+
+.compact-workspace {
+  padding-top: 60px;
+}
+
+/* The button itself should not add a second circle around the switch. */
+body[data-app-theme] .theme-toggle {
+  width: auto;
+  min-width: 30px;
+  height: 17px;
+  min-height: 17px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Keep the active sidebar icon orange after all theme overrides. */
+body[data-app-theme="striver"] .compact-nav.active,
+body[data-app-theme="striver"] .compact-nav.active span,
+body[data-app-theme="striver"] .compact-nav.active svg {
+  color: #ff713f !important;
+}
+
+/* Final flat background for the sheet header and filter row. */
+body[data-app-theme="striver"] .compact-app .route-head,
+body[data-app-theme="striver"] .compact-app .sheet-actions {
+  background: #101112 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Give the sheet a slimmer navigation rail and a dedicated profile rail. */
+@media (min-width: 901px) {
+  .compact-app.sidebar-is-open .compact-sidebar {
+    width: 210px;
+  }
+
+  .compact-app.sidebar-is-open .compact-workspace {
+    padding-left: 210px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    width: 64px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-workspace {
+    padding-left: 64px;
+  }
+}
+
+.sheet-page-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 22px;
+  align-items: start;
+}
+
+.sheet-page-shell > .route-page {
+  min-width: 0;
+  max-width: none;
+}
+
+.profile-summary-sidebar {
+  position: sticky;
+  top: 82px;
+  display: grid;
+  gap: 16px;
+  margin: 0 24px 0 0;
+  padding: 30px 0 20px 26px;
+  border: 1px solid #292929;
+  border-radius: 12px;
+  background: #171717;
+  color: #f5f5f5;
+}
+
+.profile-summary-heading {
+  display: grid;
+  gap: 7px;
+}
+
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #292929;
+}
+
+.profile-avatar {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 52px;
+  border: 2px solid #ff713f;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ff713f, #9d3924);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+}
+
+.profile-identity-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.profile-identity-copy span,
+.profile-summary-heading span {
+  color: #8e8e8e;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.profile-identity-copy strong {
+  overflow: hidden;
+  color: #f5f5f5;
+  font-size: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-identity-copy small {
+  overflow: hidden;
+  color: #8e8e8e;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-bio {
+  margin: -4px 0 2px;
+  color: #b8b8b8;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.profile-summary-heading span {
+  color: #8e8e8e;
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.profile-summary-heading strong {
+  font-size: 16px;
+}
+
+.profile-summary-gauge {
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+  margin: 4px auto;
+  border-radius: 50%;
+}
+
+.profile-summary-gauge > div {
+  width: 100px;
+  height: 100px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  border-radius: 50%;
+  background: #171717;
+}
+
+.profile-summary-gauge strong {
+  font-size: 25px;
+}
+
+.profile-summary-gauge span {
+  margin-top: 4px;
+  color: #8e8e8e;
+  font-size: 10px;
+}
+
+.profile-summary-overview {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-summary-details {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.profile-summary-sidebar {
+  padding-right: 18px;
+}
+
+.profile-summary-total {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #292929;
+}
+
+.profile-summary-total strong {
+  font-size: 24px;
+}
+
+.profile-summary-total span {
+  color: #8e8e8e;
+  font-size: 10px;
+}
+
+.profile-summary-levels {
+  display: grid;
+  gap: 11px;
+}
+
+.profile-summary-level {
+  display: grid;
+  grid-template-columns: 7px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  color: #b8b8b8;
+  font-size: 11px;
+}
+
+.profile-summary-level i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #70ee8b;
+}
+
+.profile-summary-level.medium i { background: #efb735; }
+.profile-summary-level.hard i { background: #f26868; }
+.profile-summary-level strong { color: #f5f5f5; font-size: 10px; }
+
+@media (max-width: 1100px) {
+  .sheet-page-shell { grid-template-columns: minmax(0, 1fr) 260px; gap: 14px; }
+  .profile-summary-sidebar { margin-right: 14px; }
+}
+
+@media (max-width: 900px) {
+  .sheet-page-shell { display: block; }
+  .profile-summary-sidebar { display: none; }
+}
+
+/* The live summary now lives in the dedicated right rail. */
+.sheet-table-hero > .progress-summary { display: none; }
+
+.profile-summary-sidebar {
+  height: fit-content;
+  max-height: none;
+  overflow: visible;
+  border: 0;
+  border-left: 1px solid #292929;
+  border-radius: 0;
+  background: transparent;
+  margin-right: 24px;
+  padding: 20px 0 20px 22px;
+  min-height: calc(100vh - 82px);
+}
+
+.profile-summary-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.profile-summary-stats div {
+  display: grid;
+  gap: 4px;
+  min-height: 58px;
+  padding: 10px 9px;
+  border: 1px solid #292929;
+  border-radius: 8px;
+  background: #111212;
+}
+
+.profile-summary-stats strong {
+  color: #f5f5f5;
+  font-size: 17px;
+}
+
+.profile-summary-stats span {
+  color: #8e8e8e;
+  font-size: 9px;
+}
+
+/* Keep sheet controls at the main-content edge, outside the profile rail. */
+@media (min-width: 1101px) {
+  .sheet-utilities {
+    right: 324px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .sheet-utilities {
+    right: 278px;
+  }
+}
+
+/* Use the full rail from the top of the workspace; it remains sticky and
+   never becomes an independently scrolling panel. */
+.profile-summary-sidebar {
+  top: 0;
+  min-height: calc(100vh - 60px);
+  align-self: stretch;
+}
+
+body[data-app-theme="default"] .profile-summary-sidebar,
+body[data-app-theme="light"] .profile-summary-sidebar {
+  border-left-color: #dfe8e2;
+  color: #16253b;
+}
+
+body[data-app-theme="default"] .profile-summary-heading span,
+body[data-app-theme="light"] .profile-summary-heading span,
+body[data-app-theme="default"] .profile-summary-gauge span,
+body[data-app-theme="light"] .profile-summary-gauge span,
+body[data-app-theme="default"] .profile-summary-total span,
+body[data-app-theme="light"] .profile-summary-total span,
+body[data-app-theme="default"] .profile-summary-stats span,
+body[data-app-theme="light"] .profile-summary-stats span {
+  color: #718093;
+}
+
+body[data-app-theme="default"] .profile-summary-gauge > div,
+body[data-app-theme="light"] .profile-summary-gauge > div,
+body[data-app-theme="default"] .profile-summary-stats div,
+body[data-app-theme="light"] .profile-summary-stats div {
+  background: #f7f9f6;
+  border-color: #dfe8e2;
+}
+
+body[data-app-theme="default"] .profile-summary-total,
+body[data-app-theme="light"] .profile-summary-total {
+  border-bottom-color: #dfe8e2;
+}
+
+body[data-app-theme="default"] .profile-summary-total strong,
+body[data-app-theme="light"] .profile-summary-total strong,
+body[data-app-theme="default"] .profile-summary-stats strong,
+body[data-app-theme="light"] .profile-summary-stats strong,
+body[data-app-theme="default"] .profile-summary-heading strong,
+body[data-app-theme="light"] .profile-summary-heading strong {
+  color: #16253b;
+}
+
+body[data-app-theme="default"] .profile-identity,
+body[data-app-theme="light"] .profile-identity {
+  border-bottom-color: #dfe8e2;
+}
+
+body[data-app-theme="default"] .profile-identity-copy strong,
+body[data-app-theme="light"] .profile-identity-copy strong {
+  color: #16253b;
+}
+
+body[data-app-theme="default"] .profile-identity-copy small,
+body[data-app-theme="light"] .profile-identity-copy small,
+body[data-app-theme="default"] .profile-bio,
+body[data-app-theme="light"] .profile-bio {
+  color: #718093;
+}
+
+/* The question number column is removed; let the question title take the
+   flexible space so the table stays inside the viewport. */
+.compact-app .curriculum-table-wrap {
+  overflow-x: hidden;
+}
+
+.compact-app .curriculum-table-head,
+.compact-app .curriculum-row {
+  min-width: 0;
+  grid-template-columns: 62px minmax(260px, 1.4fr) 72px 86px 76px 60px 64px 58px;
+  gap: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.compact-app .curriculum-title {
+  min-width: 0;
+}
+
+.compact-app .curriculum-title-link {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Keep the profile rail fixed like the left navigation while the sheet
+   content scrolls independently. */
+@media (min-width: 1101px) {
+  .profile-summary-sidebar {
+    position: fixed;
+    z-index: 15;
+    top: 60px;
+    right: 0;
+    width: 330px;
+    height: calc(100vh - 60px);
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .profile-summary-sidebar {
+    position: fixed;
+    z-index: 15;
+    top: 60px;
+    right: 0;
+    width: 285px;
+    height: calc(100vh - 60px);
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+/* Reclaim horizontal space from the primary navigation rail. */
+@media (min-width: 901px) {
+  .compact-app.sidebar-is-open .compact-sidebar {
+    width: 180px;
+  }
+
+  .compact-app.sidebar-is-open .compact-workspace {
+    padding-left: 180px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    width: 58px;
+  }
+
+  .compact-app.sidebar-is-collapsed .compact-workspace {
+    padding-left: 58px;
+  }
+}
+
+/* Keep the light navigation rail visibly distinct from the light workspace. */
+body[data-app-theme="default"] .compact-sidebar,
+body[data-app-theme="light"] .compact-sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #dfe8e2 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body[data-app-theme="default"] .compact-nav,
+body[data-app-theme="light"] .compact-nav {
+  color: #607168 !important;
+}
+
+body[data-app-theme="default"] .compact-nav.active,
+body[data-app-theme="default"] .compact-nav:hover,
+body[data-app-theme="light"] .compact-nav.active,
+body[data-app-theme="light"] .compact-nav:hover {
+  background: #e9f6ee !important;
+  color: #087e53 !important;
+  box-shadow: inset 2px 0 #087e53 !important;
+}
+
+/* Reserve breathing room beside the viewport scrollbar in both themes. */
+.compact-main {
+  padding-right: 12px;
+  scrollbar-gutter: stable;
+}
+
+.sheet-page-shell {
+  padding-right: 14px;
+}
+
+@media (min-width: 901px) {
+  .sheet-page-shell > .route-page {
+    width: 100%;
+    padding-left: 20px !important;
+    padding-right: 0 !important;
+  }
+
+  .sheet-page-shell .curriculum-list,
+  .sheet-page-shell .sheet-actions,
+  .sheet-page-shell .route-head {
+    width: 100%;
+  }
+}
+
+@media (min-width: 1101px) {
+  .sheet-page-shell {
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 8px;
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .sheet-page-shell {
+    grid-template-columns: minmax(0, 1fr) 285px;
+    gap: 8px;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .compact-main { padding-right: 6px; }
+  .sheet-page-shell { padding-right: 6px; }
+}
+
+/* Keep profile content clear of the fixed rail's right edge. */
+.profile-summary-sidebar {
+  padding-right: 30px !important;
+}
+
+body[data-app-theme="default"] .profile-summary-sidebar,
+body[data-app-theme="light"] .profile-summary-sidebar {
+  color: #16253b;
+  border-left-color: #cfdcd4;
+}
+
+body[data-app-theme="default"] .profile-summary-level,
+body[data-app-theme="light"] .profile-summary-level {
+  color: #52665b;
+}
+
+body[data-app-theme="default"] .profile-summary-level strong,
+body[data-app-theme="light"] .profile-summary-level strong {
+  color: #16253b;
+}
+
+body[data-app-theme="default"] .profile-summary-gauge > div,
+body[data-app-theme="light"] .profile-summary-gauge > div {
+  background: #f7f9f6;
+}
+
+/* Improve light-theme text contrast across the sheet and profile rail. */
+body[data-app-theme="default"] .compact-main,
+body[data-app-theme="light"] .compact-main {
+  color: #172b42 !important;
+}
+
+body[data-app-theme="default"] .route-head p,
+body[data-app-theme="light"] .route-head p,
+body[data-app-theme="default"] .topic-progress-copy,
+body[data-app-theme="light"] .topic-progress-copy,
+body[data-app-theme="default"] .curriculum-subtopic-head small,
+body[data-app-theme="light"] .curriculum-subtopic-head small {
+  color: #526b80 !important;
+}
+
+body[data-app-theme="default"] .curriculum-table-head,
+body[data-app-theme="light"] .curriculum-table-head {
+  color: #40586d !important;
+}
+
+body[data-app-theme="default"] .curriculum-table-head span,
+body[data-app-theme="light"] .curriculum-table-head span {
+  color: #40586d !important;
+}
+
+body[data-app-theme="default"] .row-number,
+body[data-app-theme="light"] .row-number,
+body[data-app-theme="default"] .video-unavailable,
+body[data-app-theme="light"] .video-unavailable {
+  color: #617588 !important;
+}
+
+body[data-app-theme="default"] .profile-summary-heading span,
+body[data-app-theme="light"] .profile-summary-heading span,
+body[data-app-theme="default"] .profile-identity-copy span,
+body[data-app-theme="light"] .profile-identity-copy span {
+  color: #5c7488 !important;
+}
+
+/* Stronger readable light-theme slate; avoid low-contrast gray copy. */
+body[data-app-theme="default"] .route-head p,
+body[data-app-theme="light"] .route-head p,
+body[data-app-theme="default"] .topic-progress-copy,
+body[data-app-theme="light"] .topic-progress-copy,
+body[data-app-theme="default"] .curriculum-subtopic-head small,
+body[data-app-theme="light"] .curriculum-subtopic-head small,
+body[data-app-theme="default"] .profile-bio,
+body[data-app-theme="light"] .profile-bio,
+body[data-app-theme="default"] .profile-identity-copy small,
+body[data-app-theme="light"] .profile-identity-copy small,
+body[data-app-theme="default"] .profile-summary-total span,
+body[data-app-theme="light"] .profile-summary-total span,
+body[data-app-theme="default"] .profile-summary-level,
+body[data-app-theme="light"] .profile-summary-level,
+body[data-app-theme="default"] .profile-summary-stats span,
+body[data-app-theme="light"] .profile-summary-stats span {
+  color: #3d566d !important;
+}
+
+body[data-app-theme="default"] .progress-copy,
+body[data-app-theme="light"] .progress-copy,
+body[data-app-theme="default"] .filter-group button,
+body[data-app-theme="light"] .filter-group button,
+body[data-app-theme="default"] .route-search-icon,
+body[data-app-theme="light"] .route-search-icon {
+  color: #304b63 !important;
+}
+
+body[data-app-theme="default"] .profile-summary-heading span,
+body[data-app-theme="light"] .profile-summary-heading span,
+body[data-app-theme="default"] .profile-identity-copy span,
+body[data-app-theme="light"] .profile-identity-copy span {
+  color: #405b72 !important;
+}
+
+/* Remove the extra hierarchy helper line from the sheet hero. */
+.compact-app .sheet-table-hero > div:first-child > p {
+  display: block !important;
+}
+
+.compact-app .sheet-table-hero > div:first-child > p::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Keep the three sheet utility controls clean and borderless. */
+.sheet-utilities button,
+body[data-app-theme="striver"] .sheet-utilities button,
+body[data-app-theme="default"] .sheet-utilities button,
+body[data-app-theme="light"] .sheet-utilities button {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+@media (min-width: 1101px) {
+  .sheet-utilities { right: 327px; }
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+  .sheet-utilities { right: 282px; }
+}
+
+/* Final responsive guard: do not let the fixed profile rail cover the sheet
+   when the viewport cannot comfortably fit both columns. */
+@media (max-width: 1200px) {
+  .sheet-page-shell {
+    display: block !important;
+    padding-right: 6px;
+  }
+
+  .sheet-page-shell > .route-page {
+    width: 100% !important;
+    padding-right: 8px !important;
+  }
+
+  .profile-summary-sidebar {
+    display: none !important;
+  }
+}
+
+/* Final guest rail overrides keep the redesigned card visible on smaller
+   screens too; the earlier legacy prompt rules are intentionally superseded. */
+.guest-profile-prompt {
+  position: fixed !important;
+  top: 92px !important;
+  right: 24px !important;
+  width: min(290px, calc(100vw - 48px)) !important;
+  display: grid !important;
+  gap: 12px !important;
+  padding: 0 !important;
+  color: #f5f5f5 !important;
+}
+.guest-auth-heading p { margin: 0 !important; }
+.guest-auth-card small { display: flex !important; margin: 11px 0 0 !important; }
+body[data-app-theme="striver"] .guest-google-button { color: #fff !important; }
+body[data-app-theme="default"] .guest-google-button,
+body[data-app-theme="light"] .guest-google-button { color: #fff !important; }
+.guest-auth-card,
+.guest-locked-chart {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.guest-auth-card { padding: 0 0 20px !important; border-bottom: 1px solid #303030 !important; }
+.guest-locked-chart { min-height: calc(100vh - 190px); display: flex; flex-direction: column; padding: 6px 0 0 !important; }
+.guest-pie-preview { flex: 1; min-height: 220px; align-items: center; justify-content: center; gap: 22px; transform: translateY(-58px); filter: blur(1.4px); opacity: .72; }
+.guest-pie-gauge { width: 112px; height: 112px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; }
+.guest-pie-gauge > div { width: 82px; height: 82px; display: grid; place-items: center; align-content: center; border-radius: 50%; background: #171717; }
+.guest-pie-gauge strong { color: #f5f5f5; font-size: 22px; }
+.guest-pie-gauge span { margin-top: 2px; color: #8e8e8e; font-size: 9px; }
+.guest-pie-details { display: grid; min-width: 100px; gap: 8px; color: #b8b8b8; font-size: 9px; }
+.guest-pie-details > strong { padding-bottom: 6px; border-bottom: 1px solid #292929; color: #f5f5f5; font-size: 19px; }
+.guest-pie-details > strong span { color: #8e8e8e; font-size: 9px; font-weight: 400; }
+.guest-pie-details > div { display: grid; grid-template-columns: 7px 1fr auto; align-items: center; gap: 6px; }
+.guest-pie-details i { width: 7px; height: 7px; border-radius: 50%; background: #70ee8b; }
+.guest-pie-details i.medium { background: #efb735; }
+.guest-pie-details i.hard { background: #f26868; }
+.guest-pie-details b { color: #f5f5f5; font-size: 9px; }
+.guest-chart-overlay { top: 43% !important; right: 0 !important; bottom: auto !important; left: 0 !important; height: 140px !important; transform: translateY(-50%); border: 0 !important; background: transparent !important; box-shadow: none !important; backdrop-filter: none !important; }
+@media (max-width: 1200px) {
+  .guest-profile-prompt {
+    display: none !important;
+  }
+}
+@media (max-width: 600px) {
+  .guest-profile-prompt { display: none !important; }
+}
+
+.profile-edit-page { min-height: calc(100vh - 60px); padding: 58px clamp(28px, 6vw, 96px) 80px; background: #f6f8f7; color: #16253b; }
+.profile-edit-shell { width: min(100%, 900px); margin: 0 auto; }
+.profile-edit-back { display: inline-flex; margin-bottom: 34px; color: #61736a; font-size: 12px; text-decoration: none; }
+.profile-edit-back:hover { color: #07865a; }
+.profile-edit-kicker { color: #718079; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; }
+.profile-edit-shell h1 { margin: 12px 0 8px; color: #16253b; font-size: 34px; letter-spacing: -.9px; }
+.profile-edit-copy { margin: 0 0 28px; color: #61736a; font-size: 13px; }
+.profile-editor { padding: 34px; border: 1px solid #dbe5df; border-radius: 18px; background: #fff; box-shadow: 0 18px 50px rgba(39, 76, 58, .1); }
+.profile-editor-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 22px; border-bottom: 1px solid #e3ebe6; }
+.profile-editor-heading h2 { margin: 7px 0 5px; color: #16253b; font-size: 22px; }
+.profile-editor-heading p { margin: 0; color: #718079; font-size: 12px; }
+.profile-editor-avatar { width: 72px; height: 72px; display: grid; place-items: center; overflow: hidden; flex: 0 0 72px; border: 3px solid #ff713f; border-radius: 50%; background: linear-gradient(145deg, #ff713f, #9d3924); color: #fff; font-size: 22px; font-weight: 800; }
+.profile-editor-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.profile-avatar-upload { display: grid; justify-items: center; gap: 9px; }
+.profile-avatar-upload-button { display: inline-flex; align-items: center; gap: 5px; padding: 6px 9px; border: 1px solid #d5e0d9; border-radius: 7px; color: #07865a; background: #f5fbf7; font-size: 10px; font-weight: 800; cursor: pointer; }
+.profile-avatar-upload-button input { display: none; }
+.profile-editor-form em { color: #819087; font-size: 10px; font-style: normal; font-weight: 400; }
+.profile-editor-form { display: grid; gap: 18px; padding-top: 22px; }
+.profile-editor-form label { display: grid; gap: 7px; color: #405b72; font-size: 11px; font-weight: 700; }
+.profile-editor-form input { width: 100%; padding: 11px 12px; border: 1px solid #d5e0d9; border-radius: 8px; outline: none; color: #16253b; background: #fbfdfb; font-size: 13px; }
+.profile-editor-form input:focus { border-color: #0aa978; box-shadow: 0 0 0 3px rgba(10,169,120,.1); }
+.profile-editor-form small { color: #819087; font-size: 10px; font-weight: 400; }
+.profile-image-input { position: relative; }
+.profile-image-input svg { position: absolute; top: 11px; left: 12px; color: #718079; }
+.profile-image-input input { padding-left: 36px; }
+.profile-editor-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 4px; }
+.profile-editor-button-group { display: flex; align-items: center; gap: 8px; }
+.profile-editor-actions button { display: inline-flex; align-items: center; gap: 7px; padding: 10px 14px; border: 0; border-radius: 8px; color: #fff; background: #07865a; font-size: 12px; font-weight: 800; }
+.profile-editor-actions .profile-logout-button { border: 1px solid #d5e0d9; color: #61736a; background: transparent; }
+.profile-editor-actions .profile-logout-button:hover { border-color: #b13f37; color: #b13f37; }
+.profile-editor-actions button:disabled { cursor: wait; opacity: .65; }
+.profile-editor-success, .profile-editor-error { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; }
+.profile-editor-success { color: #07865a; }
+.profile-editor-error { color: #b13f37; }
+.profile-editor-login { display: flex; align-items: center; gap: 12px; color: #61736a; }
+.profile-editor-login div { display: grid; gap: 4px; flex: 1; }
+.profile-editor-login strong { color: #16253b; font-size: 13px; }
+.profile-editor-login span { font-size: 11px; }
+.profile-editor-login a { color: #07865a; font-size: 12px; font-weight: 800; text-decoration: none; }
+.profile-editor-loading { color: #61736a; font-size: 13px; }
+body[data-app-theme="striver"] .profile-edit-page { background: #0f1112; color: #f5f5f5; }
+body[data-app-theme="striver"] .profile-edit-shell h1,
+body[data-app-theme="striver"] .profile-editor-heading h2,
+body[data-app-theme="striver"] .profile-editor-login strong { color: #f5f5f5; }
+body[data-app-theme="striver"] .profile-edit-copy,
+body[data-app-theme="striver"] .profile-editor-heading p,
+body[data-app-theme="striver"] .profile-editor-form small { color: #aab4bf; }
+body[data-app-theme="striver"] .profile-editor { border-color: #303030; background: #171717; box-shadow: none; }
+body[data-app-theme="striver"] .profile-editor-heading { border-color: #303030; }
+body[data-app-theme="striver"] .profile-editor-form label { color: #b8c5cf; }
+body[data-app-theme="striver"] .profile-editor-form input { border-color: #39434d; color: #f5f5f5; background: #111212; }
+body[data-app-theme="striver"] .profile-avatar-upload-button { border-color: #39434d; color: #ff8a62; background: #202020; }
+@media (max-width: 600px) { .profile-edit-page { padding: 34px 16px; } .profile-editor { padding: 18px; } .profile-editor-actions { align-items: flex-start; flex-direction: column; } }
+
+/* Compact desktop profile editor: keep the form on the page surface rather
+   than inside a large card, and fit the controls in one viewport. */
+.profile-edit-page { min-height: calc(100vh - 60px); padding-top: 34px; padding-bottom: 28px; }
+.profile-edit-shell h1 { margin-top: 8px; font-size: 32px; }
+.profile-edit-copy { margin-bottom: 22px; }
+.profile-editor { padding: 0; border: 0 !important; border-radius: 0; background: transparent !important; box-shadow: none !important; }
+.profile-editor-heading { padding-bottom: 16px; }
+.profile-editor-heading h2 { margin-top: 4px; font-size: 20px; }
+.profile-editor-form { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 13px 18px; padding-top: 17px; }
+.profile-editor-form > label:last-of-type { grid-column: 2; }
+.profile-editor-actions { grid-column: 1 / -1; }
+body[data-app-theme="striver"] .profile-editor { background: transparent !important; border: 0 !important; }
+@media (max-width: 700px) {
+  .profile-edit-page { padding-top: 24px; }
+  .profile-editor-form { grid-template-columns: 1fr; }
+  .profile-editor-form > label:last-of-type, .profile-editor-actions { grid-column: auto; }
+}
+
+/* Keep sidebar navigation flat in every theme: active state is text/icon
+   color only, without the green selection pill or inset marker. */
+.compact-app .compact-nav,
+.compact-app .compact-nav:hover,
+.compact-app .compact-nav.active,
+.compact-app .compact-nav.active:hover,
+body[data-app-theme] .compact-app .compact-nav,
+body[data-app-theme] .compact-app .compact-nav:hover,
+body[data-app-theme] .compact-app .compact-nav.active,
+body[data-app-theme] .compact-app .compact-nav.active:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.compact-app .compact-nav.active,
+.compact-app .compact-nav.active span,
+.compact-app .compact-nav.active svg {
+  color: #07865a !important;
+}
+
+.compact-app .compact-nav:hover,
+.compact-app .compact-nav:hover span,
+.compact-app .compact-nav:hover svg {
+  color: #07865a !important;
+}
+
+body[data-app-theme="striver"] .compact-app .compact-nav.active,
+body[data-app-theme="striver"] .compact-app .compact-nav.active span,
+body[data-app-theme="striver"] .compact-app .compact-nav.active svg,
+body[data-app-theme="striver"] .compact-app .compact-nav:hover,
+body[data-app-theme="striver"] .compact-app .compact-nav:hover span,
+body[data-app-theme="striver"] .compact-app .compact-nav:hover svg {
+  color: #ff713f !important;
+}
+
+/* Highest-priority flat navigation treatment. */
+html body .compact-sidebar .compact-nav.active,
+html body .compact-sidebar .compact-nav.active:hover,
+html body .compact-sidebar .compact-nav:hover {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-left: 0 !important;
+}
+
+html body .compact-sidebar .compact-nav.active,
+html body .compact-sidebar .compact-nav.active span,
+html body .compact-sidebar .compact-nav.active svg,
+html body .compact-sidebar .compact-nav:hover,
+html body .compact-sidebar .compact-nav:hover span,
+html body .compact-sidebar .compact-nav:hover svg {
+  color: #07865a !important;
+}
+
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav.active,
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav.active span,
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav.active svg,
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav:hover,
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav:hover span,
+html body[data-app-theme="striver"] .compact-sidebar .compact-nav:hover svg {
+  color: #ff713f !important;
+}
+
+/* The loading rail should not show a vertical divider while its content is
+   still being built. */
+.profile-rail-skeleton,
+body[data-app-theme="striver"] .profile-rail-skeleton {
+  border-left: 0 !important;
+}
+
+/* Match the right profile rail to the pale light-theme surface. */
+body[data-app-theme="default"] .profile-summary-sidebar,
+body[data-app-theme="light"] .profile-summary-sidebar,
+body[data-app-theme="default"] .profile-rail-skeleton,
+body[data-app-theme="light"] .profile-rail-skeleton {
+  background: #f7f9f5 !important;
+}
+
+/* In the light theme, keep the navigation rail on the page theme surface;
+   content panels and the right profile rail remain white. */
+body[data-app-theme="default"] .compact-sidebar,
+body[data-app-theme="light"] .compact-sidebar {
+  background: #f7f9f5 !important;
 }
