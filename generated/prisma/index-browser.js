@@ -127,8 +127,24 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   image: 'image',
   googleSub: 'googleSub',
+  welcomeEmailSentAt: 'welcomeEmailSentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.AdminLoginCodeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  codeHash: 'codeHash',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AuthSessionScalarFieldEnum = {
@@ -249,6 +265,8 @@ exports.ActivityType = exports.$Enums.ActivityType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Admin: 'Admin',
+  AdminLoginCode: 'AdminLoginCode',
   AuthSession: 'AuthSession',
   Topic: 'Topic',
   Subtopic: 'Subtopic',

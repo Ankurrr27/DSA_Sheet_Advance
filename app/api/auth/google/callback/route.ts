@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createSession, googleRedirectUri } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendWelcomeEmail } from "@/lib/mail";
 
 type GoogleProfile = { sub: string; name?: string; email?: string; picture?: string };
 
@@ -18,7 +19,7 @@ export async function GET(request: Request) {
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
     if (!code || !state || !expectedState || state !== expectedState || !verifier || !clientId || !clientSecret) {
-      return NextResponse.redirect(new URL("/practice?auth=error", request.url));
+      return NextResponse.redirect(new URL(`/practice?auth=error&stage=${encodeURIComponent(stage)}`, request.url));
     }
 
     stage = "token exchange";
@@ -39,8 +40,16 @@ export async function GET(request: Request) {
     stage = "user persistence";
     const existingUser = await prisma.user.findFirst({ where: { OR: [{ googleSub: profile.sub }, { email: profile.email }] } });
     const user = existingUser
-      ? await prisma.user.update({ where: { id: existingUser.id }, data: { googleSub: profile.sub, name: profile.name || profile.email, email: profile.email, image: profile.picture || null } })
+      ? await prisma.user.update({ where: { id: existingUser.id }, data: { googleSub: profile.sub, name: profile.name || profile.email, email: profile.email, image: existingUser.image || profile.picture || null } })
       : await prisma.user.create({ data: { googleSub: profile.sub, name: profile.name || profile.email, email: profile.email, image: profile.picture || null } });
+    if (!user.welcomeEmailSentAt) {
+      try {
+        await sendWelcomeEmail({ email: profile.email, name: profile.name || profile.email });
+        await prisma.user.update({ where: { id: user.id }, data: { welcomeEmailSentAt: new Date() } });
+      } catch (error) {
+        console.error("Welcome email failed:", error);
+      }
+    }
     stage = "session creation";
     await createSession(user.id);
     const response = NextResponse.redirect(new URL("/practice?auth=success", request.url));
@@ -50,6 +59,6 @@ export async function GET(request: Request) {
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`Google authentication failed during ${stage}: ${message}`);
-    return NextResponse.redirect(new URL("/practice?auth=error", request.url));
+    return NextResponse.redirect(new URL(`/practice?auth=error&stage=${encodeURIComponent(stage)}`, request.url));
   }
 }

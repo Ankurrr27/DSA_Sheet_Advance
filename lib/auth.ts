@@ -39,6 +39,23 @@ export async function getSessionUser() {
   return session.user;
 }
 
+export async function isAdmin(user: { email: string | null } | null) {
+  if (!user?.email) return false;
+  const admin = await prisma.admin.findUnique({ where: { email: user.email.trim().toLowerCase() }, select: { id: true } });
+  return Boolean(admin);
+}
+
+export async function getAdminSession() {
+  const user = await getSessionUser();
+  return user && await isAdmin(user) ? user : null;
+}
+
+export async function requireAdmin() {
+  const user = await getAdminSession();
+  if (!user) throw new Error("ADMIN_REQUIRED");
+  return user;
+}
+
 export async function destroySession() {
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
@@ -46,8 +63,8 @@ export async function destroySession() {
   cookieStore.delete(SESSION_COOKIE);
 }
 
-export function publicUser(user: { id: string; name: string; email: string | null; image: string | null }) {
-  return { id: user.id, name: user.name, email: user.email, image: user.image };
+export async function publicUser(user: { id: string; name: string; email: string | null; image: string | null }) {
+  return { id: user.id, name: user.name, email: user.email, image: user.image, isAdmin: await isAdmin(user) };
 }
 
 export function googleRedirectUri(request: Request) {

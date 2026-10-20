@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { readFileSync } from "node:fs";
-import { PrismaClient, Difficulty } from "@prisma/client";
+import { PrismaClient, Difficulty } from "../generated/prisma/index.js";
 
 const prisma = new PrismaClient();
 const sheetUrl = "https://takeuforward.org/prep-hub/strivers-a2z-dsa-sheet";
@@ -127,6 +127,7 @@ function subtopicName(section: string, id: number) {
 }
 
 async function main() {
+  await prisma.admin.upsert({ where: { email: "ankurp22singh@gmail.com" }, update: {}, create: { email: "ankurp22singh@gmail.com" } });
   const topicNames = [...new Set(source.map((item: any) => parentBySection[item.topic] || item.topic))];
   const topics = new Map<string, any>();
   for (const [order, name] of topicNames.entries()) {

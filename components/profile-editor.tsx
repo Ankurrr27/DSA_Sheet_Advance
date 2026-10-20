@@ -66,6 +66,7 @@ export default function ProfileEditor() {
       setUser(data.user);
       setImage(data.user.image || "");
       setMessage("Image uploaded");
+      window.dispatchEvent(new Event("dsa-profile-updated"));
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Unable to upload image.");
     } finally {

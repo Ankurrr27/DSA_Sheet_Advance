@@ -19,7 +19,7 @@ export async function PATCH(request: Request) {
     }
 
     const updated = await prisma.user.update({ where: { id: user.id }, data: { name, image: image || null } });
-    return NextResponse.json({ user: publicUser(updated) });
+    return NextResponse.json({ user: await publicUser(updated) });
   } catch (error) {
     console.error(`Profile update failed: ${error instanceof Error ? error.message : String(error)}`);
     return NextResponse.json({ error: "Unable to update your profile right now." }, { status: 500 });

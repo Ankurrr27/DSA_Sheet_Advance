@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
-import { getSessionUser } from "@/lib/auth";
+import { getSessionUser, requireAdmin } from "@/lib/auth";
 
 const questionSchema = z.object({
   title: z.string().trim().min(1),
@@ -16,6 +16,7 @@ const questionSchema = z.object({
   label: z.string().trim().max(40).nullable().optional(),
   labelColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).nullable().optional(),
   notes: z.string().trim().max(1000).nullable().optional(),
+  isActive: z.boolean().optional(),
 });
 
 export async function GET() {
@@ -40,12 +41,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    if (!await getSessionUser()) return NextResponse.json({ error: "Please log in to continue." }, { status: 401 });
+    await requireAdmin();
     const input = questionSchema.parse(await request.json());
     const slug = input.slug || `${input.sheetNumber}-${input.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-    const question = await prisma.question.create({ data: { ...input, slug, youtubeUrl: input.youtubeUrl || null, label: input.label || null, labelColor: input.labelColor || null, order: input.sheetNumber } });
+    const question = await prisma.question.create({ data: { ...input, slug, youtubeUrl: input.youtubeUrl || null, label: input.label || null, labelColor: input.labelColor || null, isActive: input.isActive ?? true, order: input.sheetNumber } });
     return NextResponse.json({ question }, { status: 201 });
   } catch (error) {
+    if (error instanceof Error && error.message === "ADMIN_REQUIRED") return NextResponse.json({ error: "Admin access is required." }, { status: 403 });
     if (error instanceof z.ZodError) return NextResponse.json({ error: "Please check the question fields." }, { status: 400 });
     console.error("Failed to create question", error);
     return NextResponse.json({ error: "Could not create the question." }, { status: 500 });
@@ -54,13 +56,14 @@ export async function POST(request: Request) {
 
 export async function PUT(request: Request) {
   try {
-    if (!await getSessionUser()) return NextResponse.json({ error: "Please log in to continue." }, { status: 401 });
+    await requireAdmin();
     const body = await request.json();
     const id = z.string().min(1).parse(body.id);
     const input = questionSchema.partial().parse(body.data);
     const question = await prisma.question.update({ where: { id }, data: { ...input, order: input.sheetNumber ?? undefined, youtubeUrl: input.youtubeUrl === "" ? null : input.youtubeUrl, label: input.label === "" ? null : input.label, labelColor: input.labelColor === "" ? null : input.labelColor } });
     return NextResponse.json({ question });
   } catch (error) {
+    if (error instanceof Error && error.message === "ADMIN_REQUIRED") return NextResponse.json({ error: "Admin access is required." }, { status: 403 });
     if (error instanceof z.ZodError) return NextResponse.json({ error: "Please check the question fields." }, { status: 400 });
     console.error("Failed to update question", error);
     return NextResponse.json({ error: "Could not update the question." }, { status: 500 });
@@ -69,11 +72,12 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    if (!await getSessionUser()) return NextResponse.json({ error: "Please log in to continue." }, { status: 401 });
+    await requireAdmin();
     const id = z.string().min(1).parse((await request.json()).id);
     await prisma.question.update({ where: { id }, data: { isActive: false } });
     return NextResponse.json({ ok: true });
   } catch (error) {
+    if (error instanceof Error && error.message === "ADMIN_REQUIRED") return NextResponse.json({ error: "Admin access is required." }, { status: 403 });
     console.error("Failed to delete question", error);
     return NextResponse.json({ error: "Could not delete the question." }, { status: 500 });
   }

@@ -42,7 +42,7 @@ export async function POST(request: Request) {
     if (!response.ok || !result.secure_url) throw new Error(result.error?.message || "Cloudinary upload failed");
 
     const updated = await prisma.user.update({ where: { id: user.id }, data: { image: result.secure_url } });
-    return NextResponse.json({ user: publicUser(updated) });
+    return NextResponse.json({ user: await publicUser(updated) });
   } catch (error) {
     console.error(`Profile image upload failed: ${error instanceof Error ? error.message : String(error)}`);
     return NextResponse.json({ error: "Unable to upload that image right now." }, { status: 500 });
