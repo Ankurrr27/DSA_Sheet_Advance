@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getSessionUser, publicUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -30,7 +30,9 @@ export async function POST(request: Request) {
       upload.append("upload_preset", uploadPreset);
       upload.append("folder", folder);
     } else {
-      const signature = createHmac("sha1", apiSecret!).update(`folder=${folder}&timestamp=${timestamp}`).digest("hex");
+      // Cloudinary signs upload parameters by hashing the canonical parameter
+      // string followed by the API secret (this is not an HMAC signature).
+      const signature = createHash("sha1").update(`folder=${folder}&timestamp=${timestamp}${apiSecret}`).digest("hex");
       upload.append("api_key", apiKey!);
       upload.append("timestamp", timestamp);
       upload.append("folder", folder);
