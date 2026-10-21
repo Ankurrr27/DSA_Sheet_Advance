@@ -1,9 +1,11 @@
 "use client";
 
 import { ArrowRight, Check, LockKeyhole, LogIn, PieChart } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function GuestProfilePrompt() {
+  const pathname = usePathname();
   const [guest, setGuest] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -13,6 +15,9 @@ export default function GuestProfilePrompt() {
       .catch(() => setGuest(true));
   }, []);
 
+  // The profile editor has its own layout; never show the shared right rail or
+  // its loading skeleton on profile pages.
+  if (pathname?.startsWith("/profile")) return null;
   if (guest === null) return <aside className="profile-rail-skeleton" aria-label="Loading profile" aria-busy="true"><span className="rail-skeleton-avatar" /><div><span className="rail-skeleton-line short" /><span className="rail-skeleton-line name" /><span className="rail-skeleton-line copy" /></div><span className="rail-skeleton-rule" /><span className="rail-skeleton-line heading" /><div className="rail-skeleton-chart"><span /></div><div className="rail-skeleton-stat-grid"><i /><i /><i /><i /></div></aside>;
   if (!guest) return null;
 

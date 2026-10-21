@@ -5,9 +5,47 @@ import { PrismaClient, Difficulty } from "../generated/prisma/index.js";
 const prisma = new PrismaClient();
 const sheetUrl = "https://takeuforward.org/prep-hub/strivers-a2z-dsa-sheet";
 const source = JSON.parse(readFileSync(new URL("./data/striver-a2z.json", import.meta.url), "utf8"));
+const platformLinksSource = JSON.parse(readFileSync(new URL("./data/a2z-platform-links.json", import.meta.url), "utf8"));
 
 function slugify(value: string) { return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+function titleKey(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, ""); }
 function difficulty(value: string) { if (value === "Hard") return Difficulty.HARD; if (value === "Medium") return Difficulty.MEDIUM; return Difficulty.EASY; }
+function platformUrl(value: unknown, domains: string[]) {
+  if (typeof value !== "string" || !value) return null;
+  return domains.some((domain) => value.includes(domain)) ? value : null;
+}
+const platformLinksByTitle = new Map(platformLinksSource.map((item: any) => [titleKey(item.title), item.links]));
+const genericTitleWords = new Set(["a", "an", "and", "array", "arrays", "for", "given", "in", "is", "number", "numbers", "of", "on", "problem", "problems", "the", "to", "using", "with"]);
+function titleTokens(value: string) {
+  return new Set(value.toLowerCase().replace(/2\s*sum/g, "two sum").replace(/3\s*sum/g, "three sum").replace(/4\s*sum/g, "four sum").match(/[a-z]+/g)?.filter((word) => !genericTitleWords.has(word)) || []);
+}
+function titleScore(left: string, right: string) {
+  const a = titleTokens(left);
+  const b = titleTokens(right);
+  if (!a.size || !b.size) return 0;
+  return [...a].filter((word) => b.has(word)).length / Math.max(a.size, b.size);
+}
+function fetchedLinksForTitle(title: string, section: string) {
+  const key = titleKey(title);
+  const exactInSection = platformLinksSource.find((item: any) => item.stepTitle === section && titleKey(item.title) === key);
+  if (exactInSection) return exactInSection.links;
+  const exact = platformLinksByTitle.get(key);
+  if (exact) return exact;
+  const candidates = platformLinksSource
+    .filter((item: any) => item.stepTitle === section)
+    .map((item: any) => ({ ...item, score: titleScore(title, item.title) }))
+    .filter((item: any) => item.score >= 0.5)
+    .sort((a: any, b: any) => b.score - a.score || Math.abs(titleKey(a.title).length - key.length) - Math.abs(titleKey(b.title).length - key.length));
+  const fuzzy = candidates[0];
+  if (fuzzy) return fuzzy.links;
+  const broader = platformLinksSource
+    .filter((item: any) => {
+      const candidate = titleKey(item.title);
+      return candidate.length > 6 && (candidate.includes(key) || key.includes(candidate));
+    })
+    .sort((a: any, b: any) => Math.abs(titleKey(a.title).length - key.length) - Math.abs(titleKey(b.title).length - key.length))[0];
+  return broader?.links || {};
+}
 const parentBySection: Record<string, string> = {
   "Learn the basics": "Foundations",
   "Learn Important Sorting Techniques": "Sorting",
@@ -57,6 +95,39 @@ const gfgUrlBySheetNumber: Record<number, string> = {
   70: "https://www.geeksforgeeks.org/problems/union-of-two-sorted-arrays-with-distinct-elements/1",
   71: "https://www.geeksforgeeks.org/problems/missing-number-in-array1416/1",
   72: "https://www.geeksforgeeks.org/dsa/maximum-consecutive-ones-or-1s-in-a-binary-array/",
+};
+
+// The A2Z sheet and GFG use different names for several identical problems.
+const gfgUrlByTitle: Record<string, string> = {
+  rearrangearrayelementsbysign: "https://www.geeksforgeeks.org/problems/array-of-alternate-ve-and-ve-nos1401/1",
+  subsetsi: "https://www.geeksforgeeks.org/problems/subset-sums2234/1",
+  introductionsinglylinkedlist: "https://www.geeksforgeeks.org/problems/introduction-to-linked-list/1",
+  insertionattheheadoflinkedlist: "https://www.geeksforgeeks.org/problems/linked-list-insertion-1587115620/0",
+  insertnodebeforeheadindoublylinkedlist: "https://www.geeksforgeeks.org/problems/insert-a-node-in-doubly-linked-list/1",
+  deletionoftheheadofll: "https://www.geeksforgeeks.org/problems/delete-head-of-doubly-linked-list/1",
+  stringtointegeratoi: "https://www.geeksforgeeks.org/problems/implement-atoi/1",
+  singlenumberi: "https://www.geeksforgeeks.org/problems/element-appearing-once2552/0",
+  singlenumberiii: "https://www.geeksforgeeks.org/problems/two-numbers-with-only-1-set-bit/1",
+  replaceelementsbytheirrank: "https://www.geeksforgeeks.org/problems/replace-elements-by-its-rank-in-the-array/1",
+  powxn: "https://www.geeksforgeeks.org/problems/power-of-numbers-1587115620/1",
+  numberofgreaterelementstotheright: "https://www.geeksforgeeks.org/problems/number-of-nges-to-the-right/1",
+  printroottoleafpathinbt: "https://www.geeksforgeeks.org/problems/root-to-leaf-paths/1",
+  maximumdepthinbt: "https://www.geeksforgeeks.org/problems/height-of-binary-tree/1",
+  lcainbt: "https://www.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-binary-tree/1",
+  serializeanddeserializebt: "https://www.geeksforgeeks.org/problems/serialize-and-deserialize-a-binary-tree/1",
+  traversaltechniques: "https://www.geeksforgeeks.org/problems/preorder-traversal/1",
+  insertagivennodeinbst: "https://www.geeksforgeeks.org/problems/insert-a-node-in-a-bst/1",
+  lcainbst: "https://practice.geeksforgeeks.org/problems/lowest-common-ancestor-in-a-bst/1",
+  numberofislands: "https://www.geeksforgeeks.org/problems/find-the-number-of-islands/1",
+  assigncookies: "https://www.geeksforgeeks.org/problems/assign-cookies/1",
+  addtwonumbersinlinkedlist: "https://www.geeksforgeeks.org/problems/add-two-numbers-represented-by-linked-lists/1",
+  minimumcosttoconnectsticks: "https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1",
+  introductiontobst: "https://www.geeksforgeeks.org/problems/introduction-to-binary-search-tree/1",
+  trieimplementationandoperations: "https://www.geeksforgeeks.org/problems/trie-insert-and-search0656/1",
+  introductiontodp: "https://www.geeksforgeeks.org/problems/dynamic-programming-1587115620/1",
+  checkifthenumberisarmstrong: "https://www.geeksforgeeks.org/problems/armstrong-numbers2727/1",
+  highestoccurringelementinanarray: "https://www.geeksforgeeks.org/problems/most-frequent-element-in-an-array/1",
+  gcdoftwonumbers: "https://www.geeksforgeeks.org/problems/gcd-of-two-numbers3459/1",
 };
 
 const splitSubtopics: Record<string, Array<{ name: string; from: number; to: number }>> = {
@@ -155,13 +226,19 @@ async function main() {
     const occurrence = titleOccurrences.get(titleSlug) ?? 0;
     titleOccurrences.set(titleSlug, occurrence + 1);
     const slug = occurrence === 0 ? titleSlug : `${titleSlug}-${topic.slug}`;
-    const gfgUrl = gfgUrlBySheetNumber[item.id];
-    const externalUrl = item.leetcode_url || gfgUrl || sheetUrl;
-    const platform = item.leetcode_url ? "LeetCode" : gfgUrl ? "GeeksforGeeks" : "TakeUForward";
+    const fetchedLinks = fetchedLinksForTitle(item.problem_name, item.topic);
+    const links = {
+      youtube: item.youtube_url || null,
+      leetcode: platformUrl(item.leetcode_url, ["leetcode.com"]) || platformUrl(fetchedLinks.leetcode, ["leetcode.com"]),
+      gfg: gfgUrlBySheetNumber[item.id] || gfgUrlByTitle[titleKey(item.problem_name)] || platformUrl(fetchedLinks.gfg, ["geeksforgeeks.org"]),
+      codingninjas: platformUrl(fetchedLinks.codingninjas, ["codingninjas.com", "code360.com", "naukri.com/code360"]),
+    };
+    const externalUrl = links.leetcode || links.gfg || links.codingninjas || sheetUrl;
+    const platform = links.leetcode ? "LeetCode" : links.gfg ? "GeeksforGeeks" : links.codingninjas ? "Coding Ninjas" : "TakeUForward";
     await prisma.question.upsert({
       where: { slug },
-      update: { sheetNumber: item.id, title: item.problem_name.trim(), externalUrl, youtubeUrl: item.youtube_url || null, platform, difficulty: difficulty(item.difficulty), topicId: topic.id, subtopicId: subtopic.id, order, isActive: true },
-      create: { sheetNumber: item.id, title: item.problem_name.trim(), slug, externalUrl, youtubeUrl: item.youtube_url || null, platform, difficulty: difficulty(item.difficulty), topicId: topic.id, subtopicId: subtopic.id, order, isActive: true },
+      update: { sheetNumber: item.id, title: item.problem_name.trim(), externalUrl, youtubeUrl: item.youtube_url || null, platform, platformLinks: links, difficulty: difficulty(item.difficulty), topicId: topic.id, subtopicId: subtopic.id, order, isActive: true },
+      create: { sheetNumber: item.id, title: item.problem_name.trim(), slug, externalUrl, youtubeUrl: item.youtube_url || null, platform, platformLinks: links, difficulty: difficulty(item.difficulty), topicId: topic.id, subtopicId: subtopic.id, order, isActive: true },
     });
   }
   console.log(`Seeded ${source.length} Striver A2Z questions across ${topics.size} topics.`);

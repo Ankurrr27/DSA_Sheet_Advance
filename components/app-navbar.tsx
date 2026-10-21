@@ -2,15 +2,17 @@
 
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { LogOut, Menu, ShieldCheck } from "lucide-react";
 import StriverThemeToggle from "@/components/striver-theme-toggle";
 
 type AppNavbarProps = {
   label?: string;
   hideThemeToggle?: boolean;
+  onMenuClick?: () => void;
+  menuOpen?: boolean;
 };
 
-export default function AppNavbar({ label, hideThemeToggle = false }: AppNavbarProps) {
+export default function AppNavbar({ label, hideThemeToggle = false, onMenuClick, menuOpen = false }: AppNavbarProps) {
   // Keep the first render identical on the server and client. The persisted
   // theme is applied immediately after mount by the layout effect below.
   const [userName, setUserName] = useState<string | null>(null);
@@ -34,9 +36,10 @@ export default function AppNavbar({ label, hideThemeToggle = false }: AppNavbarP
       </Link>
       {!hideThemeToggle && <StriverThemeToggle />}
       <div className="app-navbar-actions">
+        {onMenuClick ? <button className="navbar-menu-button" type="button" onClick={onMenuClick} aria-label="Open navigation menu" aria-expanded={menuOpen}><Menu size={17} /></button> : null}
         {label ? <span className="app-view-label">{label}</span> : null}
-        {isAdmin ? <Link href="/admin" className="admin-nav-link"><ShieldCheck size={14} /> Admin</Link> : null}
-        {userName ? <button className="auth-logout-button" type="button" onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = "/practice"; }}>Sign out</button> : <a className="auth-login-link" href="/api/auth/google">Login / Signup</a>}
+        {isAdmin ? <Link href="/admin" className="admin-nav-link"><ShieldCheck size={14} /><span>Admin</span></Link> : null}
+        {userName ? <button className="auth-logout-button" type="button" aria-label="Sign out" onClick={async () => { await fetch("/api/auth/logout", { method: "POST" }); window.location.href = "/practice"; }}><LogOut size={15} /><span>Sign out</span></button> : <a className="auth-login-link" href="/api/auth/google">Login / Signup</a>}
         {userName ? <Link href="/profile/edit" className="navbar-profile-avatar" aria-label="Open profile" title="Open profile">{userImage ? <img src={userImage} alt="" /> : userName.split(/\s+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase()}</Link> : null}
       </div>
     </header>

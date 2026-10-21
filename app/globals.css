@@ -1723,6 +1723,28 @@ nav {
   margin-right: 8px;
   vertical-align: middle;
 }
+.platform-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+.platform-link,
+.platform-video-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  transition: transform .15s ease, opacity .15s ease;
+}
+.platform-link:hover,
+.platform-video-link:hover { transform: translateY(-1px); opacity: .78; }
+.platform-link img,
+.platform-video-link img { display: block; width: 20px; height: 20px; object-fit: contain; }
+.platform-video-link img { width: 22px; height: 22px; }
 .youtube-link {
   color: #ff6b72;
   text-decoration: none;
@@ -3106,10 +3128,7 @@ nav {
 .curriculum-table-head,
 .curriculum-row {
   display: grid;
-  grid-template-columns: 36px 40px minmax(250px, 1.5fr) 110px minmax(
-      220px,
-      1fr
-    ) 140px;
+  grid-template-columns: 36px minmax(250px, 1.5fr) 28px 28px 28px 78px 74px 52px 52px 52px 52px;
   align-items: center;
   gap: 12px;
   padding: 0 24px;
@@ -3122,6 +3141,12 @@ nav {
     700 9px Arial,
     sans-serif;
   letter-spacing: 0.7px;
+}
+.curriculum-table-head > span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
 }
 .curriculum-row {
   min-height: 46px;
@@ -3172,6 +3197,29 @@ nav {
 .curriculum-title-link:hover {
   color: #07845a;
   text-decoration: underline;
+}
+.platform-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.platform-cell img {
+  display: block;
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+}
+.platform-cell:hover { background: rgba(16, 35, 58, .08); }
+.platform-cell-empty { color: #9aa5b2; font-size: 13px; }
+
+/* Keep the platform columns and action columns on the same row. */
+.compact-app .curriculum-table-head,
+.compact-app .curriculum-row {
+  grid-template-columns: 36px minmax(250px, 1.5fr) 28px 28px 28px 78px 74px 52px 52px 52px 52px !important;
 }
 .difficulty-pill {
   width: max-content;
@@ -3263,7 +3311,7 @@ nav {
   }
   .curriculum-table-head,
   .curriculum-row {
-    grid-template-columns: 30px 30px minmax(170px, 1fr) 82px 35px;
+    grid-template-columns: 28px minmax(150px, 1fr) 25px 25px 25px 64px 50px 42px 42px 42px 42px;
     padding: 0 12px;
     gap: 8px;
   }
@@ -6164,6 +6212,38 @@ body[data-app-theme="striver"] .video-link {
   background: #5a2225 !important;
   color: #ff7777 !important;
 }
+
+/* Keep the YouTube action as the actual brand mark, not a second pill around it. */
+body[data-app-theme="striver"].compact-app .platform-video-link {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  opacity: 1 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.compact-app a.platform-video-link,
+.compact-app a.platform-video-link:hover,
+.compact-app a.platform-video-link:focus-visible {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.compact-app .platform-video-link img {
+  display: block;
+  width: 24px !important;
+  height: 24px !important;
+}
 body[data-app-theme="striver"] .filter-group .filter-active {
   background: #252525 !important;
   color: #f5f5f5 !important;
@@ -7375,6 +7455,10 @@ body[data-app-theme="light"] .guest-chart-overlay span {
   min-height: calc(100vh - 70px);
 }
 .auth-logout-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 1px solid #dce5df;
   background: transparent;
   color: #61736a;
@@ -7383,6 +7467,33 @@ body[data-app-theme="light"] .guest-chart-overlay span {
   font-size: 11px;
   font-weight: 800;
   cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  body[data-app-theme="striver"] .admin-nav-link,
+  body[data-app-theme="striver"] .auth-logout-button {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0 !important;
+    border-radius: 9px;
+  }
+  body[data-app-theme="striver"] .admin-nav-link {
+    color: #19b985 !important;
+  }
+  body[data-app-theme="striver"] .auth-logout-button {
+    border-color: #5b2a2d !important;
+    background: #2b1719 !important;
+    color: #ff6d68 !important;
+  }
+  body[data-app-theme="striver"] .auth-logout-button:hover {
+    border-color: #ff6d68 !important;
+    color: #ff9a78 !important;
+  }
+  .admin-nav-link span,
+  .auth-logout-button span {
+    display: none;
+  }
 }
 .auth-logout-button:hover {
   border-color: #0aa978;
@@ -7681,6 +7792,30 @@ body[data-app-theme="striver"] .compact-app .sheet-actions {
   border-radius: 12px;
   background: #171717;
   color: #f5f5f5;
+}
+
+/* Keep the profile rail focused on the user's identity. */
+.profile-summary-sidebar .profile-avatar {
+  width: 76px;
+  height: 76px;
+  flex-basis: 76px;
+}
+.profile-summary-sidebar .profile-bio {
+  display: none;
+}
+
+/* Desktop: the rail expands on hover, so a separate arrow button is unnecessary. */
+@media (min-width: 901px) {
+  .compact-app .sidebar-toggle,
+  .compact-app .sidebar-reopen {
+    display: none !important;
+  }
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    width: 48px !important;
+  }
+  .compact-app.sidebar-is-collapsed .compact-workspace {
+    padding-left: 48px !important;
+  }
 }
 
 .profile-summary-heading {
@@ -8752,6 +8887,119 @@ body[data-app-theme="striver"] .profile-editor {
   background: transparent !important;
   border: 0 !important;
 }
+
+/* Profile editor polish: give the settings page a clear header and a calmer
+   two-column form without changing its upload/save behavior. */
+.profile-edit-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 0 24px;
+  border-bottom: 0;
+}
+.profile-edit-kicker {
+  display: block;
+  color: #07865a;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+}
+.profile-edit-hero-badge {
+  display: grid;
+  gap: 4px;
+  min-width: 150px;
+  padding: 12px 14px;
+  border: 1px solid #dce8e0;
+  border-radius: 12px;
+  background: rgba(255,255,255,.58);
+  text-align: right;
+}
+.profile-edit-hero-badge span {
+  color: #07865a;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+}
+.profile-edit-hero-badge strong {
+  color: #30475b;
+  font-size: 11px;
+}
+.profile-editor-heading-copy {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+}
+.profile-editor-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: center;
+  gap: 28px;
+}
+.profile-avatar-upload {
+  justify-self: end;
+  width: 190px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.profile-editor-avatar {
+  width: 124px;
+  height: 124px;
+  flex-basis: 124px;
+  border-width: 4px;
+  font-size: 32px;
+}
+.profile-editor-account {
+  margin-top: 8px;
+  color: #87958e;
+  font-size: 11px;
+}
+.profile-photo-caption {
+  color: #87958e;
+  font-size: 9px;
+  letter-spacing: .3px;
+}
+.profile-editor-form {
+  align-items: start;
+}
+.profile-editor-form > label {
+  min-width: 0;
+}
+.profile-editor-form > label > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.profile-editor-actions {
+  padding-top: 7px;
+  border-top: 1px solid #e3ebe6;
+}
+body[data-app-theme="striver"] .profile-edit-hero {
+  border-color: transparent;
+}
+body[data-app-theme="striver"] .profile-edit-kicker,
+body[data-app-theme="striver"] .profile-edit-hero-badge span {
+  color: #ff8a62;
+}
+body[data-app-theme="striver"] .profile-edit-hero-badge {
+  border-color: #30363c;
+  background: #17191b;
+}
+body[data-app-theme="striver"] .profile-avatar-upload {
+  background: transparent;
+}
+body[data-app-theme="striver"] .profile-edit-hero-badge strong {
+  color: #d7dde2;
+}
+body[data-app-theme="striver"] .profile-editor-account,
+body[data-app-theme="striver"] .profile-photo-caption {
+  color: #89939d;
+}
+body[data-app-theme="striver"] .profile-editor-actions {
+  border-color: #303030;
+}
 @media (max-width: 700px) {
   .profile-edit-page {
     padding-top: 24px;
@@ -8763,6 +9011,433 @@ body[data-app-theme="striver"] .profile-editor {
   .profile-editor-actions {
     grid-column: auto;
   }
+  .profile-edit-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .profile-edit-hero-badge {
+    width: 100%;
+    text-align: left;
+  }
+  .profile-editor-heading {
+    grid-template-columns: 1fr;
+  }
+  .profile-avatar-upload {
+    justify-self: start;
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 700px) {
+  .profile-edit-page {
+    min-height: calc(100vh - 56px);
+    padding: 24px 16px 36px;
+  }
+  .profile-edit-shell {
+    width: 100%;
+  }
+  .profile-edit-hero {
+    padding-bottom: 18px;
+  }
+  .profile-edit-shell h1 {
+    margin: 8px 0 6px;
+    font-size: clamp(27px, 8vw, 32px);
+    line-height: 1.08;
+  }
+  .profile-edit-copy {
+    max-width: 34em;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+  .profile-edit-hero-badge {
+    min-width: 0;
+    padding: 10px 12px;
+  }
+  .profile-editor-heading {
+    gap: 18px;
+    padding: 18px 0;
+  }
+  .profile-avatar-upload {
+    justify-self: center;
+    width: min(100%, 220px);
+    padding: 14px 12px 11px;
+  }
+  .profile-editor-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-top: 16px;
+  }
+  .profile-editor-form > label,
+  .profile-editor-form > label:last-of-type,
+  .profile-editor-actions {
+    grid-column: auto;
+  }
+  .profile-editor-form input {
+    min-width: 0;
+    padding: 12px;
+  }
+  .profile-image-input input {
+    padding-left: 36px;
+    text-overflow: ellipsis;
+  }
+  .profile-editor-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 15px;
+  }
+  .profile-editor-button-group {
+    width: 100%;
+  }
+  .profile-editor-actions button {
+    justify-content: center;
+    flex: 1;
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 390px) {
+  .profile-editor-button-group {
+    flex-direction: column-reverse;
+  }
+  .profile-editor-actions button {
+    width: 100%;
+  }
+}
+
+/* Compact practice sheet on phones: keep the question list readable and
+   move secondary table metadata out of the narrow viewport. */
+@media (max-width: 700px) {
+  .compact-app .compact-main {
+    width: 100%;
+    padding: 0 !important;
+  }
+  .compact-app .compact-workspace,
+  .compact-app.sidebar-is-collapsed .compact-workspace {
+    padding-left: 0 !important;
+  }
+  .compact-app .sheet-page-shell {
+    display: block !important;
+    width: 100%;
+    padding: 0 !important;
+  }
+  .compact-app .sheet-page-shell > .route-page,
+  .compact-app .route-page {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 8px 0 40px !important;
+  }
+  .compact-app .route-head,
+  .compact-app .sheet-actions {
+    margin-right: 8px;
+    margin-left: 8px;
+    border-radius: 8px;
+  }
+  .compact-app .curriculum-topic {
+    margin-bottom: 8px;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .compact-app .curriculum-topic-head {
+    min-height: 46px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .compact-app .curriculum-topic-title {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .compact-app .topic-progress-badge {
+    flex: 0 0 auto;
+    padding: 3px 7px;
+    font-size: 9px;
+  }
+  .compact-app .topic-progress-copy,
+  .compact-app .topic-progress-track,
+  .compact-app .topic-more {
+    display: none;
+  }
+  .compact-app .curriculum-subtopic-head {
+    height: 38px;
+    padding: 0 10px;
+    gap: 7px;
+    font-size: 12px;
+  }
+  .compact-app .curriculum-subtopic-head small {
+    margin-left: auto;
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  .compact-app .curriculum-subtopic-head strong,
+  .compact-app .subtopic-toggle {
+    display: none;
+  }
+  .compact-app .curriculum-table-head,
+  .compact-app .curriculum-row {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    min-width: 0 !important;
+    width: 100%;
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .compact-app .curriculum-table-head {
+    height: 30px;
+    font-size: 8px;
+  }
+  .compact-app .curriculum-row {
+    min-height: 50px;
+  }
+  .compact-app .curriculum-table-head > :nth-child(n + 3),
+  .compact-app .curriculum-row > :nth-child(n + 3) {
+    display: none !important;
+  }
+  .compact-app .curriculum-title-link {
+    display: block;
+    font-size: 13px;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+  .compact-app .status-checkbox {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Mobile-only navigation drawer. Desktop keeps the existing hover sidebar. */
+@media (max-width: 900px) {
+  .compact-app .sidebar-reopen {
+    top: 68px;
+    left: 12px;
+    z-index: 60;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  .compact-app .compact-sidebar {
+    top: 60px !important;
+    width: min(280px, 84vw) !important;
+    padding: 18px 14px !important;
+    z-index: 70;
+  }
+  .compact-app.sidebar-is-open .compact-sidebar {
+    transform: translateX(0) !important;
+  }
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    transform: translateX(-105%) !important;
+  }
+  .compact-app .compact-nav-list {
+    display: grid;
+    gap: 6px;
+  }
+  .compact-app .compact-nav {
+    justify-content: flex-start !important;
+    min-height: 44px;
+    padding: 0 13px !important;
+    gap: 12px;
+    border-radius: 9px;
+  }
+  .compact-app .compact-nav span {
+    display: inline !important;
+  }
+  .compact-app .sidebar-close {
+    display: inline-grid !important;
+  }
+  .compact-app .sidebar-scrim.is-visible {
+    display: block !important;
+    z-index: 65;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-app-theme="striver"] .app-navbar .admin-nav-link {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    color: #19b985 !important;
+  }
+  body[data-app-theme="striver"] .app-navbar .auth-logout-button {
+    width: 34px !important;
+    height: 34px !important;
+    min-width: 34px !important;
+    padding: 0 !important;
+    border-color: #5b2a2d !important;
+    background: #2b1719 !important;
+    color: #ff6d68 !important;
+  }
+  .app-navbar .admin-nav-link span,
+  .app-navbar .auth-logout-button span {
+    display: none !important;
+  }
+}
+
+/* Put the mobile drawer trigger inside the top navigation instead of below it. */
+@media (max-width: 900px) {
+  .compact-app .sidebar-reopen {
+    top: 12px !important;
+    left: 12px !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 9px;
+  }
+  .compact-app .app-navbar .app-brand {
+    margin-left: 48px;
+  }
+  .compact-app .compact-sidebar {
+    width: min(250px, 78vw) !important;
+  }
+  .compact-app .sidebar-reopen,
+  body[data-app-theme="striver"] .app-navbar .admin-nav-link,
+  body[data-app-theme="striver"] .app-navbar .auth-logout-button {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  body[data-app-theme="striver"] .app-navbar .admin-nav-link {
+    color: #19b985 !important;
+  }
+  body[data-app-theme="striver"] .app-navbar .auth-logout-button {
+    color: #ff6d68 !important;
+  }
+  body[data-app-theme="striver"] .app-navbar .theme-toggle {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+.navbar-menu-button {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .compact-app .app-navbar-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px !important;
+  }
+  .compact-app .app-navbar > .theme-toggle,
+  .compact-app .app-navbar .app-view-label,
+  .compact-app .app-navbar .admin-nav-link,
+  .compact-app .app-navbar .auth-logout-button,
+  .compact-app .app-navbar .auth-login-link {
+    display: none !important;
+  }
+  .compact-app .navbar-menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #c5cbd0;
+    order: 2;
+  }
+  .compact-app .navbar-menu-button:hover {
+    color: #ffffff;
+  }
+  .compact-app .app-navbar .admin-nav-link,
+  .compact-app .app-navbar .auth-logout-button {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+  }
+  .compact-app .app-navbar .navbar-profile-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    flex: 0 0 32px;
+    order: 1;
+  }
+  .compact-app .sidebar-reopen {
+    display: none !important;
+  }
+  .compact-app .app-navbar .app-brand {
+    margin-left: 0 !important;
+  }
+  .compact-app .compact-sidebar {
+    width: min(150px, 50vw) !important;
+    padding: 16px 8px !important;
+    left: auto !important;
+    right: 0 !important;
+  }
+  .compact-app.sidebar-is-open .compact-sidebar {
+    transform: translateX(0) !important;
+  }
+  .compact-app.sidebar-is-collapsed .compact-sidebar {
+    transform: translateX(105%) !important;
+  }
+  .compact-app .compact-nav {
+    padding: 0 7px !important;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .compact-app .compact-nav svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
+}
+
+/* The edit page is intentionally limited to the profile controls only. */
+.profile-edit-shell h1 {
+  margin-bottom: 24px;
+}
+.profile-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: start;
+  column-gap: 42px;
+}
+.profile-editor-heading {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  grid-column: 2;
+  grid-row: 1;
+  padding-bottom: 20px;
+  border-bottom: 0;
+}
+.profile-editor-form {
+  grid-column: 1;
+  grid-row: 1;
+  grid-template-columns: 1fr;
+  padding-top: 0;
+}
+.profile-editor-form > label:last-of-type,
+.profile-editor-actions {
+  grid-column: auto;
+}
+@media (max-width: 700px) {
+  .profile-editor-heading {
+    justify-content: center;
+    padding-bottom: 18px;
+  }
+  .profile-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .profile-editor-heading,
+  .profile-editor-form {
+    width: 100%;
+  }
+  .profile-editor-heading { order: 0; }
+  .profile-editor-form { order: 1; }
 }
 
 /* Keep sidebar navigation flat in every theme: active state is text/icon

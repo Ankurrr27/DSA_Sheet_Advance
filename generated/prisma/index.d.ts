@@ -8397,6 +8397,7 @@ export namespace Prisma {
     externalUrl: number
     youtubeUrl: number
     platform: number
+    platformLinks: number
     difficulty: number
     label: number
     labelColor: number
@@ -8472,6 +8473,7 @@ export namespace Prisma {
     externalUrl?: true
     youtubeUrl?: true
     platform?: true
+    platformLinks?: true
     difficulty?: true
     label?: true
     labelColor?: true
@@ -8580,6 +8582,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl: string | null
     platform: string
+    platformLinks: JsonValue | null
     difficulty: $Enums.Difficulty
     label: string | null
     labelColor: string | null
@@ -8620,6 +8623,7 @@ export namespace Prisma {
     externalUrl?: boolean
     youtubeUrl?: boolean
     platform?: boolean
+    platformLinks?: boolean
     difficulty?: boolean
     label?: boolean
     labelColor?: boolean
@@ -8646,6 +8650,7 @@ export namespace Prisma {
     externalUrl?: boolean
     youtubeUrl?: boolean
     platform?: boolean
+    platformLinks?: boolean
     difficulty?: boolean
     label?: boolean
     labelColor?: boolean
@@ -8669,6 +8674,7 @@ export namespace Prisma {
     externalUrl?: boolean
     youtubeUrl?: boolean
     platform?: boolean
+    platformLinks?: boolean
     difficulty?: boolean
     label?: boolean
     labelColor?: boolean
@@ -8692,6 +8698,7 @@ export namespace Prisma {
     externalUrl?: boolean
     youtubeUrl?: boolean
     platform?: boolean
+    platformLinks?: boolean
     difficulty?: boolean
     label?: boolean
     labelColor?: boolean
@@ -8705,7 +8712,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sheetNumber" | "title" | "slug" | "externalUrl" | "youtubeUrl" | "platform" | "difficulty" | "label" | "labelColor" | "topicId" | "subtopicId" | "prerequisite" | "description" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
+  export type QuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "sheetNumber" | "title" | "slug" | "externalUrl" | "youtubeUrl" | "platform" | "platformLinks" | "difficulty" | "label" | "labelColor" | "topicId" | "subtopicId" | "prerequisite" | "description" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["question"]>
   export type QuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     topic?: boolean | TopicDefaultArgs<ExtArgs>
     subtopic?: boolean | Question$subtopicArgs<ExtArgs>
@@ -8738,6 +8745,7 @@ export namespace Prisma {
       externalUrl: string
       youtubeUrl: string | null
       platform: string
+      platformLinks: Prisma.JsonValue | null
       difficulty: $Enums.Difficulty
       label: string | null
       labelColor: string | null
@@ -9183,6 +9191,7 @@ export namespace Prisma {
     readonly externalUrl: FieldRef<"Question", 'String'>
     readonly youtubeUrl: FieldRef<"Question", 'String'>
     readonly platform: FieldRef<"Question", 'String'>
+    readonly platformLinks: FieldRef<"Question", 'Json'>
     readonly difficulty: FieldRef<"Question", 'Difficulty'>
     readonly label: FieldRef<"Question", 'String'>
     readonly labelColor: FieldRef<"Question", 'String'>
@@ -11983,6 +11992,7 @@ export namespace Prisma {
     externalUrl: 'externalUrl',
     youtubeUrl: 'youtubeUrl',
     platform: 'platform',
+    platformLinks: 'platformLinks',
     difficulty: 'difficulty',
     label: 'label',
     labelColor: 'labelColor',
@@ -12115,6 +12125,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'Difficulty'
    */
   export type EnumDifficultyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Difficulty'>
@@ -12160,20 +12184,6 @@ export namespace Prisma {
    * Reference to a field of type 'ActivityType[]'
    */
   export type ListEnumActivityTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActivityType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
-   * Reference to a field of type 'QueryMode'
-   */
-  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -12585,6 +12595,7 @@ export namespace Prisma {
     externalUrl?: StringFilter<"Question"> | string
     youtubeUrl?: StringNullableFilter<"Question"> | string | null
     platform?: StringFilter<"Question"> | string
+    platformLinks?: JsonNullableFilter<"Question">
     difficulty?: EnumDifficultyFilter<"Question"> | $Enums.Difficulty
     label?: StringNullableFilter<"Question"> | string | null
     labelColor?: StringNullableFilter<"Question"> | string | null
@@ -12610,6 +12621,7 @@ export namespace Prisma {
     externalUrl?: SortOrder
     youtubeUrl?: SortOrderInput | SortOrder
     platform?: SortOrder
+    platformLinks?: SortOrderInput | SortOrder
     difficulty?: SortOrder
     label?: SortOrderInput | SortOrder
     labelColor?: SortOrderInput | SortOrder
@@ -12638,6 +12650,7 @@ export namespace Prisma {
     externalUrl?: StringFilter<"Question"> | string
     youtubeUrl?: StringNullableFilter<"Question"> | string | null
     platform?: StringFilter<"Question"> | string
+    platformLinks?: JsonNullableFilter<"Question">
     difficulty?: EnumDifficultyFilter<"Question"> | $Enums.Difficulty
     label?: StringNullableFilter<"Question"> | string | null
     labelColor?: StringNullableFilter<"Question"> | string | null
@@ -12663,6 +12676,7 @@ export namespace Prisma {
     externalUrl?: SortOrder
     youtubeUrl?: SortOrderInput | SortOrder
     platform?: SortOrder
+    platformLinks?: SortOrderInput | SortOrder
     difficulty?: SortOrder
     label?: SortOrderInput | SortOrder
     labelColor?: SortOrderInput | SortOrder
@@ -12692,6 +12706,7 @@ export namespace Prisma {
     externalUrl?: StringWithAggregatesFilter<"Question"> | string
     youtubeUrl?: StringNullableWithAggregatesFilter<"Question"> | string | null
     platform?: StringWithAggregatesFilter<"Question"> | string
+    platformLinks?: JsonNullableWithAggregatesFilter<"Question">
     difficulty?: EnumDifficultyWithAggregatesFilter<"Question"> | $Enums.Difficulty
     label?: StringNullableWithAggregatesFilter<"Question"> | string | null
     labelColor?: StringNullableWithAggregatesFilter<"Question"> | string | null
@@ -13269,6 +13284,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -13292,6 +13308,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -13315,6 +13332,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13338,6 +13356,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13361,6 +13380,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -13382,6 +13402,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13401,6 +13422,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13948,6 +13970,29 @@ export namespace Prisma {
   export type SubtopicSumOrderByAggregateInput = {
     order?: SortOrder
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type EnumDifficultyFilter<$PrismaModel = never> = {
     equals?: $Enums.Difficulty | EnumDifficultyFieldRefInput<$PrismaModel>
@@ -13974,6 +14019,7 @@ export namespace Prisma {
     externalUrl?: SortOrder
     youtubeUrl?: SortOrder
     platform?: SortOrder
+    platformLinks?: SortOrder
     difficulty?: SortOrder
     label?: SortOrder
     labelColor?: SortOrder
@@ -14037,6 +14083,32 @@ export namespace Prisma {
   export type QuestionSumOrderByAggregateInput = {
     sheetNumber?: SortOrder
     order?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumDifficultyWithAggregatesFilter<$PrismaModel = never> = {
@@ -14126,29 +14198,6 @@ export namespace Prisma {
     notIn?: $Enums.ActivityType[] | ListEnumActivityTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumActivityTypeFilter<$PrismaModel> | $Enums.ActivityType
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type QuestionNullableScalarRelationFilter = {
     is?: QuestionWhereInput | null
@@ -14188,32 +14237,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumActivityTypeFilter<$PrismaModel>
     _max?: NestedEnumActivityTypeFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type QuestionProgressCreateNestedManyWithoutUserInput = {
@@ -14880,6 +14903,29 @@ export namespace Prisma {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumDifficultyWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Difficulty | EnumDifficultyFieldRefInput<$PrismaModel>
@@ -14931,29 +14977,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumActivityTypeFilter<$PrismaModel>
     _max?: NestedEnumActivityTypeFilter<$PrismaModel>
-  }
-  export type NestedJsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type QuestionProgressCreateWithoutUserInput = {
@@ -15200,6 +15223,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15222,6 +15246,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15303,6 +15328,7 @@ export namespace Prisma {
     externalUrl?: StringFilter<"Question"> | string
     youtubeUrl?: StringNullableFilter<"Question"> | string | null
     platform?: StringFilter<"Question"> | string
+    platformLinks?: JsonNullableFilter<"Question">
     difficulty?: EnumDifficultyFilter<"Question"> | $Enums.Difficulty
     label?: StringNullableFilter<"Question"> | string | null
     labelColor?: StringNullableFilter<"Question"> | string | null
@@ -15384,6 +15410,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15406,6 +15433,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15736,6 +15764,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15758,6 +15787,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15833,6 +15863,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15855,6 +15886,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15908,6 +15940,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -15930,6 +15963,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -16005,6 +16039,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16027,6 +16062,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16153,6 +16189,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -16182,6 +16219,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16204,6 +16242,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16226,6 +16265,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16275,6 +16315,7 @@ export namespace Prisma {
     externalUrl: string
     youtubeUrl?: string | null
     platform: string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty: $Enums.Difficulty
     label?: string | null
     labelColor?: string | null
@@ -16295,6 +16336,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16317,6 +16359,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null
@@ -16339,6 +16382,7 @@ export namespace Prisma {
     externalUrl?: StringFieldUpdateOperationsInput | string
     youtubeUrl?: NullableStringFieldUpdateOperationsInput | string | null
     platform?: StringFieldUpdateOperationsInput | string
+    platformLinks?: NullableJsonNullValueInput | InputJsonValue
     difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
     label?: NullableStringFieldUpdateOperationsInput | string | null
     labelColor?: NullableStringFieldUpdateOperationsInput | string | null

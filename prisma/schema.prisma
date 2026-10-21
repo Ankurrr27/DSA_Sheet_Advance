@@ -107,6 +107,7 @@ model Question {
   externalUrl  String
   youtubeUrl   String?
   platform     String
+  platformLinks Json?
   difficulty   Difficulty
   label        String?
   labelColor   String?

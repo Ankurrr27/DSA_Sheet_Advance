@@ -185,6 +185,7 @@ exports.Prisma.QuestionScalarFieldEnum = {
   externalUrl: 'externalUrl',
   youtubeUrl: 'youtubeUrl',
   platform: 'platform',
+  platformLinks: 'platformLinks',
   difficulty: 'difficulty',
   label: 'label',
   labelColor: 'labelColor',
